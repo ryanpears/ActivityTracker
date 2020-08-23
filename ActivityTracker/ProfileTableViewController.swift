@@ -7,40 +7,70 @@
 //
 
 import UIKit
+import os.log
+import CoreLocation
+import CoreData
 
 class ProfileTableViewController: UITableViewController {
+    
+    
 
+    //USE THIS CLASS TO DEFINE ACTIONS OF THE TABLE VIEW
+    
+    //MARK: Properties
+    private var activities = [Activity]()
+    //needed to use coreData saving and loading
+    //private let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        //loadSampleActivity()
+        fetch()
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
 
     // MARK: - Table view data source
-
+    //maybe will need to change
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return activities.count
     }
-
-    /*
+    //doesn't fix problem
+    override func tableView(_ tableView: UITableView, heightForRowAt
+    indexPath: IndexPath) -> CGFloat {
+            return 475
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
+        //allows cell to be dequeued
+        let cellIdentifier = "ActivityTableViewCell"
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? ActivityTableViewCell else{
+            fatalError("shit")
+        }
+        let activity = activities[indexPath.row]
+        
+        cell.setPath(path: activity.path)
+        cell.distanceDisp.text = String(format: "%0.2f", activity.distance)
+        cell.avePaceDisp.text = String(format: "%0.2f", activity.avePace)
+        cell.timeDisp.text = String(format: "%0.2f", activity.time)
+        
+        
         return cell
     }
-    */
+    
 
     /*
     // Override to support conditional editing of the table view.
@@ -77,14 +107,73 @@ class ProfileTableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        
+        if segue.identifier == "addActivity"{
+            //DO NOTHING RN 
+        }else if segue.identifier == "showActivity"{
+            // I think I need to make another view
+            if let destVC = segue.destination as? ActivityViewController{
+                //destVC.activity = activities[IndexPath.row]
+            }
+        }
     }
-    */
-
+    //MARK: Actions
+    @IBAction func unwindToProfile(sender: UIStoryboardSegue){
+        if let sourceVC = sender.source as? ActivityViewController, let newActivity = sourceVC.activity{
+            //add another row
+            let newIndexPath = IndexPath(row: activities.count, section: 0)
+            activities.append(newActivity)
+            tableView.insertRows(at: [newIndexPath], with: .top)
+            //create the coreData model to be saved
+            let wrappedActivityDescription = NSEntityDescription.entity(forEntityName: "ActivityDataModel", in: context)!
+            let wrappedActivity = ActivityDataModel(entity: wrappedActivityDescription, insertInto: self.context)
+            wrappedActivity.activity = newActivity
+            //save the data
+            save()
+        }
+    }
+    
+    //MARK: CoreData Saving/Loading
+    private func save(){
+        do{
+            try self.context.save()
+        }catch{
+            print("error saving data: \(error)")
+        }
+    }
+    
+    private func fetch(){
+        do{
+            let data:[ActivityDataModel] = try context.fetch(ActivityDataModel.fetchRequest())
+            for wrappedActivity in data{
+                if wrappedActivity.activity != nil{
+                    self.activities.append(wrappedActivity.activity!)
+                }
+            }
+            //reload data
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }catch{
+            print("error fetching data: \(error)")
+        }
+    }
+    
+    //MARK: private test functions
+    private func loadSampleActivity(){
+        var path:[PosTime] = []
+        path.append(PosTime.init(time:0, possition: CLLocation(latitude:  44.098681, longitude: -114.955616))!)
+        path.append(PosTime.init(time: 1840, possition: CLLocation(latitude:  44.0842558, longitude: -114.9731255))!)
+        path.append(PosTime.init(time: 3443, possition: CLLocation(latitude:  44.0747604, longitude: -114.9897766))!)
+        path.append(PosTime.init(time:4575, possition: CLLocation(latitude:  44.067977, longitude: -115.0050545))!)
+        path.append(PosTime.init(time: 6000, possition:CLLocation(latitude:  44.0549014, longitude: -115.0131226))!)
+        let act1 = Activity.init(path: path)
+        activities.append(act1)
+    }
 }
+

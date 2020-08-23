@@ -26,6 +26,8 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var distanceDisp: UILabel!
     
+    @IBOutlet weak var saveButton: UIBarButtonItem!
+    
     private var mapViewRegion = MKCoordinateRegion()
     private var locationManager: CLLocationManager?
     private var timer:ActivityTimer?
@@ -35,6 +37,8 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
     private var totalActivityTime:Double = 0.0
     private var distance = 0.0
     private var path: [PosTime] = []
+    
+    var activity: Activity?
     
     //TEST REMOVE LATER
     //private var testCoords = [CLLocationCoordinate2D]()
@@ -69,6 +73,7 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
         mapView.center = view.center
         
         //setting up timer
+        //may want to make the time interval shorter for more accurate times while recording
         timer = ActivityTimer(timeUpdated:{ [weak self] timeInterval in
             //make a strong self in the callback to avoid errors
             //os_log("in ActivityTimer callback block")
@@ -79,6 +84,8 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
             strongSelf.totalActivityTime = timeInterval
             
         })
+        //disable save button
+        saveButton.isEnabled = false
         
 //        //TESTCOORDINATES
 //        let coords1 = CLLocationCoordinate2D(latitude: 21.1233668, longitude: 79.1027889)
@@ -101,7 +108,7 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
         }
     }
     
-    //NOTE: may want to add points to the path in this function since the locations array could make this much more accurate
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]){
         //only record points while the timer is running
         if timer?.isPaused ?? true {
@@ -112,7 +119,6 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
         //checks the authorization
         //THIS MIGHT NOT BE NESSICARY SINCE WE ARE ALREADY GETTING A LOCATION
         //NEED TO TEST
-//if CLLocationManager.authorizationStatus() == .authorizedAlways || CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
         //appends a possition to the path
         let time = totalActivityTime
         let possition = locations[locations.count-1]
@@ -132,15 +138,15 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
             
             let pace: Double = totalActivityTime/distance
             paceDisp.text = timeString(time: pace)
+            
         }
-//}
        
         //let currentLocation = path[path.count-1].pos
         
         //create MKPolyline from path
         //MayAlso make this a different func
         var possitionsInTwoD = [CLLocationCoordinate2D]()
-        for case let point in path{//loops over non-nil(kinda cool
+        for case let point in path{//loops over non-nil(kinda cool)
             let coordinate = CLLocationCoordinate2D(latitude: point.pos.coordinate.latitude, longitude: point.pos.coordinate.longitude)
             possitionsInTwoD.append(coordinate)
         }
@@ -168,6 +174,26 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
     //MARK: Actions
     @IBAction func StartPauseButton(_ sender: UIButton) {
         timer?.toggle()
+        if (timer?.isPaused)!{
+            startStopButton.setTitle("start", for: .normal)
+            saveButton.isEnabled = true
+        }else{
+            startStopButton.setTitle("stop", for: .normal)
+            saveButton.isEnabled = false
+        }
+    }
+    
+   
+    //MARK: navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        guard let button = sender as? UIBarButtonItem, button === saveButton else{
+            os_log("save button wasn't pressed", type: .debug)
+            return
+        }
+        //new activity created to be passed to table view
+        activity = Activity(path: path)
+        
     }
     
     //MARK: private functions

@@ -36,5 +36,53 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "294E078B-7B0D-4883-88A2-64AD05FE115D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ActivityTracker/Activity.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
+            landmarkName = "calcDistance()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "294E078B-7B0D-4883-88A2-64AD05FE115D - c5996a38fa20c095"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ActivityTracker.Activity.(calcDistance in _ECB36464610B9842C83A3BCA92274ADF)() -&gt; ()"
+                  moduleName = "ActivityTracker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ryanpearson/Desktop/CodingProjects/SwiftProjects/ActivityTracker/ActivityTracker/Activity.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "53"
+                  endingLineNumber = "53"
+                  offsetFromSymbolStart = "899">
+               </Location>
+               <Location
+                  uuid = "294E078B-7B0D-4883-88A2-64AD05FE115D - 80c35788c5486b88"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ActivityTrackerTests.Activity.(calcDistance in _5AFA94A5E8C2537617AAE599644F90DC)() -&gt; ()"
+                  moduleName = "ActivityTrackerTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ryanpearson/Desktop/CodingProjects/SwiftProjects/ActivityTracker/ActivityTracker/Activity.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "53"
+                  endingLineNumber = "53"
+                  offsetFromSymbolStart = "899">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

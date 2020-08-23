@@ -49,13 +49,15 @@ public class Activity: NSObject, NSCoding{
             return
         }
         var dist:Double = 0
-        for i in 0..<path.count-1{
-            let point1:CLLocation = path[i].pos
-            let point2:CLLocation = path[i+1].pos
-            let calcDist = point2.distance(from: point1)
-            //calculation error check
-            //NOTE DEFINATELY WILL NEED TO CHANGE
-            if calcDist > 0.1 {
+        var prevLocation: CLLocation = path[0].pos
+        for i in 1..<path.count{
+            let nextLocation:CLLocation = path[i].pos
+            let calcDist = prevLocation.distance(from: nextLocation)
+            //only add if the calculated distance is greater then the horizontal accuraty
+    
+            if calcDist > nextLocation.horizontalAccuracy {
+    
+                prevLocation = nextLocation
                 dist += calcDist
             }
         }
@@ -79,6 +81,7 @@ public class Activity: NSObject, NSCoding{
         }
         self.avePace = time/distance
     }
+    
     //MARK: NSCoding
     public func encode(with coder: NSCoder) {
         coder.encode(path, forKey: PropertyKey.path)

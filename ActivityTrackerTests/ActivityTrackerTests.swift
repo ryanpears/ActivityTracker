@@ -29,11 +29,12 @@ class ActivityTrackerTests: XCTestCase {
             distance += coord1.distance(from: coord2)
         }
         let avePace = 6000/distance
-//print("DISTANCE IS THIS :::: ",distance)
+
         XCTAssertNotNil(act1)
-        XCTAssertTrue(act1.distance - distance < 1)//tests that the distance is calculated to within a meter which is a bit more realistic then 1e-9
+        XCTAssertEqual(act1.distance, distance )//tests that the distance is calculated to within a meter which is a bit more realistic then 1e-9
         XCTAssertTrue(act1.time - 6000 < 1e-9)
-        XCTAssertTrue(act1.avePace - avePace < 1e-9)
+        //XCTAssertTrue(act1.avePace - avePace < 1e-7)
+        XCTAssertEqual(avePace, act1.avePace)
     }
     
     func testUnchangingCoordinateDistance(){

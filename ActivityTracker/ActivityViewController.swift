@@ -76,7 +76,7 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
         //may want to make the time interval shorter for more accurate times while recording
         timer = ActivityTimer(timeUpdated:{ [weak self] timeInterval in
             //make a strong self in the callback to avoid errors
-            //os_log("in ActivityTimer callback block")
+            os_log("in ActivityTimer callback block")
             guard let strongSelf = self else {
                 return
             }
@@ -198,6 +198,11 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
     
     //MARK: private functions
     private func timeString(time: Double) -> String {
+        //checking for valid input
+        if time.isNaN || time.isInfinite {
+            return String(format: "%.2d:%.2d", 0, 0)
+        }
+        
         let seconds = Int(time.truncatingRemainder(dividingBy: 60))
         let minutes = Int(time.truncatingRemainder(dividingBy: 60 * 60) / 60)
         return String(format: "%.2d:%.2d", minutes, seconds)

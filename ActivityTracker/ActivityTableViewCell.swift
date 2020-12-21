@@ -77,5 +77,29 @@ class ActivityTableViewCell: UITableViewCell, MKMapViewDelegate {
     func setPath(path: [PosTime]){
         self.path = path
     }
+    
+    func setTime(time: Double){
+        self.timeDisp.text = timeString(time: time)
+    }
+    
+    func setPace(pace: Double){
+        self.avePaceDisp.text = timeString(time: pace)
+    }
+    
+    func setDistance(distance: Double){
+        self.distanceDisp.text = String(format: "%.2f", distance)
+    }
+    
+    //MARK: private functions probably replace
+    private func timeString(time: Double) -> String {
+        //checking for valid input
+        if time.isNaN || time.isInfinite {
+            return String(format: "%.2d:%.2d", 0, 0)
+        }
+        
+        let seconds = Int(time.truncatingRemainder(dividingBy: 60))
+        let minutes = Int(time.truncatingRemainder(dividingBy: 60 * 60) / 60)
+        return String(format: "%.2d:%.2d", minutes, seconds)
+    }
 
 }

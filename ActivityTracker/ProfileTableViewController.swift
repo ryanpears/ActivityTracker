@@ -63,10 +63,9 @@ class ProfileTableViewController: UITableViewController {
         let activity = activities[indexPath.row]
         
         cell.setPath(path: activity.path)
-        cell.distanceDisp.text = String(format: "%0.2f", activity.distance)
-        cell.avePaceDisp.text = String(format: "%0.2f", activity.avePace)
-        cell.timeDisp.text = String(format: "%0.2f", activity.time)
-        
+        cell.setTime(time: activity.time)
+        cell.setPace(pace: activity.avePace)
+        cell.setDistance(distance: activity.distance)
         
         return cell
     }

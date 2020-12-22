@@ -15,7 +15,7 @@ public class Activity: NSObject, NSCoding{
     
     //MARK: Properties
     private(set) var path: [PosTime]!
-    private(set) var avePace: Double!//miliseconds/m
+    private(set) var avePace: Double!//m/millisecond possibly change per different activitys
     private(set) var distance: Double!
     private(set) var time: Double!//time in miliseconds
     
@@ -56,7 +56,6 @@ public class Activity: NSObject, NSCoding{
             //only add if the calculated distance is greater then the horizontal accuraty
     
             if calcDist > nextLocation.horizontalAccuracy {
-    
                 prevLocation = nextLocation
                 dist += calcDist
             }
@@ -79,7 +78,7 @@ public class Activity: NSObject, NSCoding{
             self.avePace = 0.0
             return
         }
-        self.avePace = time/distance
+        self.avePace = distance/time
     }
     
     //MARK: NSCoding

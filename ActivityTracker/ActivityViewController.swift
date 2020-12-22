@@ -80,7 +80,7 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
             guard let strongSelf = self else {
                 return
             }
-            strongSelf.timeDisp.text = strongSelf.timeString(time: timeInterval)
+            strongSelf.timeDisp.text = MeasurementUtils.timeString(time: timeInterval)
             strongSelf.totalActivityTime = timeInterval
             
         })
@@ -137,7 +137,7 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
             distanceDisp.text = String(format: "%.2f", distance)
             
             let pace: Double = totalActivityTime/distance
-            paceDisp.text = timeString(time: pace)
+            paceDisp.text = MeasurementUtils.timeString(time: pace)
             
         }
        
@@ -197,7 +197,7 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
     }
     
     //MARK: private functions
-    private func timeString(time: Double) -> String {
+    /*private func timeString(time: Double) -> String {
         //checking for valid input
         if time.isNaN || time.isInfinite {
             return String(format: "%.2d:%.2d", 0, 0)
@@ -206,14 +206,19 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
         let seconds = Int(time.truncatingRemainder(dividingBy: 60))
         let minutes = Int(time.truncatingRemainder(dividingBy: 60 * 60) / 60)
         return String(format: "%.2d:%.2d", minutes, seconds)
-    }
+    }*/
     
     //Note: this is inacurrate I will need to account for error a bit better.
+    //possibly move this to MeasurementUtils
     private func calcDistance(point1: CLLocation, point2: CLLocation) -> Double{
         var dist = point1.distance(from: point2)
-        //convert to km and round to avoid larger recorded distances
-        dist = Double(round(dist*1000)/1000000)
-        return dist
+        if dist > point2.horizontalAccuracy {
+            //convert to km and round to avoid larger recorded distances
+            dist = Double(round(dist*1000)/1000000)
+            return dist
+        }
+        //not accurate enough
+        return 0
     }
     
     private func setMapRegion(currentLocation: CLLocation){

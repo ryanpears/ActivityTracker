@@ -115,7 +115,7 @@ class ProfileTableViewController: UITableViewController {
         if segue.identifier == "addActivity"{
             //DO NOTHING RN 
         }else if segue.identifier == "showActivity"{
-            // I think I need to make another view
+            //TODO: add showActivity view/controller.
             if let destVC = segue.destination as? ActivityViewController{
                 //destVC.activity = activities[IndexPath.row]
             }

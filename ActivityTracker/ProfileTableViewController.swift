@@ -126,7 +126,8 @@ class ProfileTableViewController: UITableViewController {
         if let sourceVC = sender.source as? ActivityViewController, let newActivity = sourceVC.activity{
             //add another row
             let newIndexPath = IndexPath(row: activities.count, section: 0)
-            activities.append(newActivity)
+            //adds first
+            activities.insert(newActivity, at: 0)
             tableView.insertRows(at: [newIndexPath], with: .top)
             //create the coreData model to be saved
             let wrappedActivityDescription = NSEntityDescription.entity(forEntityName: "ActivityDataModel", in: context)!

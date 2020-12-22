@@ -80,8 +80,7 @@ class ActivityTableViewCell: UITableViewCell, MKMapViewDelegate {
     
     //TODO add a meteric and imperial version 
     func setTime(time: Double){
-        let seconds = MeasurementUtils.millisecondsToSeconds(ms: time);
-        self.timeDisp.text = MeasurementUtils.timeString(time: seconds) + " min"
+        self.timeDisp.text = MeasurementUtils.timeString(time: time) + " min"
     }
     
     func setPace(pace: Double){

@@ -16,7 +16,7 @@ public class Activity: NSObject, NSCoding{
     //MARK: Properties
     private(set) var path: [PosTime]!
     private(set) var avePace: Double!//m/millisecond possibly change per different activitys
-    private(set) var distance: Double!
+    private(set) var distance: Double!//distance in Meters
     private(set) var time: Double!//time in miliseconds
     
     //used for easy selection of activity
@@ -48,6 +48,7 @@ public class Activity: NSObject, NSCoding{
             self.distance = 0.0
             return
         }
+        //possibly move to measurementUtils
         var dist:Double = 0
         var prevLocation: CLLocation = path[0].pos
         for i in 1..<path.count{

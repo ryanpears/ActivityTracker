@@ -89,7 +89,8 @@ class ActivityTableViewCell: UITableViewCell, MKMapViewDelegate {
     }
     
     func setDistance(distance: Double){
-        self.distanceDisp.text = String(format: "%.2f km", distance)
+        let distanceInKm = MeasurementUtils.metersToKilometers(m: distance)
+        self.distanceDisp.text = String(format: "%.2f km", distanceInKm)
     }
     
     //MARK: private functions probably replace

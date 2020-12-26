@@ -36,6 +36,8 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
     private var totalActivityTime:Double = 0.0
     private var distance = 0.0
     private var path: [PosTime] = []
+    //used for calculating distance in a kinda lazy way.
+    private var lastSignificatePossition: PosTime?
     
     var activity: Activity?
     
@@ -118,7 +120,6 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
         }
         //checks the authorization
         //THIS MIGHT NOT BE NESSICARY SINCE WE ARE ALREADY GETTING A LOCATION
-        //NEED TO TEST
         //appends a possition to the path
         let time = totalActivityTime
         let possition = locations[locations.count-1]
@@ -132,13 +133,21 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
         //updates the distance and pace
         //MIGHT MAKE A FUNCTION TO UPDATE THE CORRECT STATS
         if path.count > 1{
-            distance += calcDistance(point1:
-                path[path.count-1].pos, point2: path[path.count-2].pos)
+            //hopefully forceful unwrap won't cause problems.
+            let nextDistance = calcDistance(point1: lastSignificatePossition!.pos,
+                                            point2: path[path.count-1].pos)
+            if nextDistance != 0{
+                distance += nextDistance
+                lastSignificatePossition = path[path.count-1]
+            }
+               
             distanceDisp.text = String(format: "%.2f", distance)
             
             let pace: Double = totalActivityTime/distance
             paceDisp.text = MeasurementUtils.timeString(time: pace)
             
+        }else{
+            lastSignificatePossition = path[0]
         }
        
         //let currentLocation = path[path.count-1].pos

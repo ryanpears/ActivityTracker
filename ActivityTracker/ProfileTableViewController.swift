@@ -38,6 +38,8 @@ class ProfileTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
+    
+    
 
     // MARK: - Table view data source
     //maybe will need to change
@@ -59,7 +61,8 @@ class ProfileTableViewController: UITableViewController {
         let cellIdentifier = "ActivityTableViewCell"
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? ActivityTableViewCell else{
             fatalError("shit")
-        }
+            }
+        
         let activity = activities[indexPath.row]
         
         cell.setPath(path: activity.path)
@@ -113,7 +116,7 @@ class ProfileTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "addActivity"{
-            //DO NOTHING RN 
+            //DO NOTHING FOR NOW may add stuff later.
         }else if segue.identifier == "showActivity"{
             //TODO: add showActivity view/controller.
             if let destVC = segue.destination as? ActivityViewController{
@@ -129,12 +132,16 @@ class ProfileTableViewController: UITableViewController {
             //adds first
             activities.insert(newActivity, at: 0)
             tableView.insertRows(at: [newIndexPath], with: .top)
+            os_log("new activity added to activity array", type: .debug)
+            //reload data this feels a little hacky probably will change.
+            tableView.reloadData()
             //create the coreData model to be saved
             let wrappedActivityDescription = NSEntityDescription.entity(forEntityName: "ActivityDataModel", in: context)!
             let wrappedActivity = ActivityDataModel(entity: wrappedActivityDescription, insertInto: self.context)
             wrappedActivity.activity = newActivity
             //save the data
             save()
+            
         }
     }
     

@@ -32,7 +32,6 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
     private var locationManager: CLLocationManager?
     private var timer:ActivityTimer?
     
-    //private var timerIsRunning = false//used to make sure only one timer runs at a time
     //currently data for each activity will be stored here until the activity is saved
     private var totalActivityTime:Double = 0.0
     private var distance = 0.0
@@ -55,6 +54,7 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
             os_log("have premission for location", type: .debug)
             locationManager?.delegate = self
             locationManager?.desiredAccuracy = kCLLocationAccuracyBest //want the most accurate
+            locationManager?.allowsBackgroundLocationUpdates = true //want to update from background
             //set up map view only if the user agrees
             mapView.showsUserLocation = true
 //            let center = CLLocationCoordinate2D(latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude)
@@ -193,7 +193,7 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
         }
         //new activity created to be passed to table view
         activity = Activity(path: path)
-        
+        os_log("activity created unwinding now", type: .debug)
     }
     
     //MARK: private functions

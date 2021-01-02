@@ -33,18 +33,9 @@ class ActivityTableViewCell: UITableViewCell, MKMapViewDelegate {
         super.awakeFromNib()
         // should set up the map view
         mapView.delegate = self
-        if !path.isEmpty{
-           var possitionsInTwoD = [CLLocationCoordinate2D]()
-            for case let point in path{
-                let coordinate = CLLocationCoordinate2D(latitude: point.pos.coordinate.latitude, longitude: point.pos.coordinate.longitude)
-                possitionsInTwoD.append(coordinate)
-            }
-
-
-            let line = MKPolyline(coordinates: possitionsInTwoD, count: possitionsInTwoD.count)
-            setMapRegion(currentLocation: path[0].pos)
-            mapView.addOverlay(line)
-        }
+        mapView.isZoomEnabled = true
+        mapView.isScrollEnabled = true
+        
         
     }
 
@@ -66,8 +57,8 @@ class ActivityTableViewCell: UITableViewCell, MKMapViewDelegate {
         return MKPolylineRenderer()//returns nothing
     }
     
-    private func setMapRegion(currentLocation: CLLocation){
-        let center = CLLocationCoordinate2D(latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude)
+    private func setMapRegion(centerLocation: CLLocation){
+        let center = CLLocationCoordinate2D(latitude: centerLocation.coordinate.latitude, longitude: centerLocation.coordinate.longitude)
         let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
 
         mapView.setRegion(region, animated: true)
@@ -76,6 +67,20 @@ class ActivityTableViewCell: UITableViewCell, MKMapViewDelegate {
     //MARK: setters
     func setPath(path: [PosTime]){
         self.path = path
+        
+        //can only do this after given a path
+        if !path.isEmpty{
+           var possitionsInTwoD = [CLLocationCoordinate2D]()
+            for case let point in path{
+                let coordinate = CLLocationCoordinate2D(latitude: point.pos.coordinate.latitude, longitude: point.pos.coordinate.longitude)
+                possitionsInTwoD.append(coordinate)
+            }
+
+
+            let line = MKPolyline(coordinates: possitionsInTwoD, count: possitionsInTwoD.count)
+            setMapRegion(centerLocation: path[0].pos)
+            mapView.addOverlay(line)
+        }
     }
     
     //TODO add a meteric and imperial version 

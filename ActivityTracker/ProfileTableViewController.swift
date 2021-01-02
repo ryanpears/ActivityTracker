@@ -171,7 +171,7 @@ class ProfileTableViewController: UITableViewController {
             let data:[ActivityDataModel] = try context.fetch(ActivityDataModel.fetchRequest())
             for wrappedActivity in data{
                 if wrappedActivity.activity != nil{
-                    self.activities.append(wrappedActivity.activity!)
+                    self.activities.insert(wrappedActivity.activity!, at:0)
                 }
             }
             //reload data

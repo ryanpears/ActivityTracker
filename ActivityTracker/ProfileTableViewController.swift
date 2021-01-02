@@ -23,8 +23,10 @@ class ProfileTableViewController: UITableViewController {
     //private let appDelegate = UIApplication.shared.delegate as! AppDelegate
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         //loadSampleActivity()
         fetch()
@@ -126,7 +128,8 @@ class ProfileTableViewController: UITableViewController {
     }
     //MARK: Actions
     @IBAction func unwindToProfile(sender: UIStoryboardSegue){
-        if let sourceVC = sender.source as? ActivityViewController, let newActivity = sourceVC.activity{
+        if let sourceVC = sender.source as? ActivityViewController,
+           let newActivity = sourceVC.currentActivity{
             //add another row
             let newIndexPath = IndexPath(row: activities.count, section: 0)
             //adds first
@@ -139,6 +142,11 @@ class ProfileTableViewController: UITableViewController {
             let wrappedActivityDescription = NSEntityDescription.entity(forEntityName: "ActivityDataModel", in: context)!
             let wrappedActivity = ActivityDataModel(entity: wrappedActivityDescription, insertInto: self.context)
             wrappedActivity.activity = newActivity
+            if wrappedActivity.activity == nil {
+                fatalError("activity is nil this is bad")
+            }
+            //did not work
+            //self.context.refresh(wrappedActivity, mergeChanges: true)
             //save the data
             save()
             
@@ -148,6 +156,8 @@ class ProfileTableViewController: UITableViewController {
     //MARK: CoreData Saving/Loading
     private func save(){
         do{
+            //name change to stop weird coredata stuff
+            NSKeyedArchiver.setClassName("ActivityTracker.activity", for: Activity.self)
             try self.context.save()
         }catch{
             print("error saving data: \(error)")
@@ -156,6 +166,8 @@ class ProfileTableViewController: UITableViewController {
     
     private func fetch(){
         do{
+            //name change to stop weird coredata stuff
+            NSKeyedUnarchiver.setClass(Activity.self, forClassName: "ActivityTracker.activity")
             let data:[ActivityDataModel] = try context.fetch(ActivityDataModel.fetchRequest())
             for wrappedActivity in data{
                 if wrappedActivity.activity != nil{

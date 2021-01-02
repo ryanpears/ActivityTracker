@@ -38,8 +38,8 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
     private var path: [PosTime] = []
     //used for calculating distance in a kinda lazy way.
     private var lastSignificatePossition: PosTime?
-    
-    var activity: Activity?
+    //probably should make private
+    private(set) var currentActivity: Activity?
     
     //TEST REMOVE LATER
     //private var testCoords = [CLLocationCoordinate2D]()
@@ -201,7 +201,7 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
             return
         }
         //new activity created to be passed to table view
-        activity = Activity(path: path)
+        currentActivity = Activity(path: path)
         os_log("activity created unwinding now", type: .debug)
     }
     

@@ -36,7 +36,6 @@ class ActivityTableViewCell: UITableViewCell, MKMapViewDelegate {
         mapView.isZoomEnabled = true
         mapView.isScrollEnabled = true
         
-        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

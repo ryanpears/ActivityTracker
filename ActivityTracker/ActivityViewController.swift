@@ -51,7 +51,6 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
         locationManager = CLLocationManager()
         self.locationManager?.requestAlwaysAuthorization()
         self.locationManager?.requestWhenInUseAuthorization()
-        
         if CLLocationManager.locationServicesEnabled() {
             os_log("have premission for location", type: .debug)
             locationManager?.delegate = self
@@ -59,12 +58,9 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
             locationManager?.allowsBackgroundLocationUpdates = true //want to update from background
             //set up map view only if the user agrees
             mapView.showsUserLocation = true
-//            let center = CLLocationCoordinate2D(latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude)
-//            let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
-//
-//            mapView.setRegion(region, animated: true)
         }else{
             os_log("not given location premissions", type: .debug)
+            //possibly display error to user
         }
         
         //Map view settings
@@ -75,7 +71,6 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
         mapView.center = view.center
         
         //setting up timer
-        //may want to make the time interval shorter for more accurate times while recording
         timer = ActivityTimer(timeUpdated:{ [weak self] timeInterval in
             //make a strong self in the callback to avoid errors
             os_log("in ActivityTimer callback block")
@@ -88,14 +83,10 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
         })
         //disable save button
         saveButton.isEnabled = false
-        
-//        //TESTCOORDINATES
-//        let coords1 = CLLocationCoordinate2D(latitude: 21.1233668, longitude: 79.1027889)
-//        let coords2 = CLLocationCoordinate2D(latitude: 21.122083, longitude: 79.1135274)
-//        let coords3 = CLLocationCoordinate2D(latitude: 21.1235418, longitude: 79.1150327)
-//        let coords4 = CLLocationCoordinate2D(latitude: 21.1384636, longitude: 79.1189755)
-//        testCoords = [coords1,coords2,coords3,coords4]
-//
+        //Zero out the stats
+        timeDisp.text = MeasurementUtils.timeString(time: 0) + " \nmin"
+        paceDisp.text = MeasurementUtils.timeString(time: 0) + " \nkm/min"
+        distanceDisp.text = String(format: "%.2f", 0) + " \nkm"
     }
     
    //MARK: LocationMangerDelegate

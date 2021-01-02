@@ -24,6 +24,8 @@
 		037D388424E098BD00867082 /* ActivityTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037D388324E098BD00867082 /* ActivityTimer.swift */; };
 		03870A9224E1A26D007A4A94 /* ActivityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03870A9124E1A26D007A4A94 /* ActivityTableViewCell.swift */; };
 		03870A9324E33861007A4A94 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035845B124D3D22F0075A2E1 /* Activity.swift */; };
+		03B79DC1259274D8000D85BB /* MeasurementUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B79DC0259274D8000D85BB /* MeasurementUtils.swift */; };
+		03B79DC2259274D8000D85BB /* MeasurementUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B79DC0259274D8000D85BB /* MeasurementUtils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +58,7 @@
 		035845B524D3D8570075A2E1 /* PosTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PosTime.swift; sourceTree = "<group>"; };
 		037D388324E098BD00867082 /* ActivityTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTimer.swift; sourceTree = "<group>"; };
 		03870A9124E1A26D007A4A94 /* ActivityTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTableViewCell.swift; sourceTree = "<group>"; };
+		03B79DC0259274D8000D85BB /* MeasurementUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementUtils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +115,7 @@
 				0358459624D1DB480075A2E1 /* LaunchScreen.storyboard */,
 				0358459924D1DB480075A2E1 /* Info.plist */,
 				0358459124D1DB430075A2E1 /* ActivityTracker.xcdatamodeld */,
+				03B79DC0259274D8000D85BB /* MeasurementUtils.swift */,
 			);
 			path = ActivityTracker;
 			sourceTree = "<group>";
@@ -226,6 +230,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03B79DC1259274D8000D85BB /* MeasurementUtils.swift in Sources */,
 				0358458D24D1DB430075A2E1 /* ActivityViewController.swift in Sources */,
 				035845B624D3D8570075A2E1 /* PosTime.swift in Sources */,
 				035845AE24D1DE550075A2E1 /* ProfileTableViewController.swift in Sources */,
@@ -244,6 +249,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03B79DC2259274D8000D85BB /* MeasurementUtils.swift in Sources */,
 				03870A9324E33861007A4A94 /* Activity.swift in Sources */,
 				035845A324D1DB480075A2E1 /* ActivityTrackerTests.swift in Sources */,
 				037D388224D3D9FA00867082 /* PosTime.swift in Sources */,

@@ -11,12 +11,15 @@ import CoreLocation
 import os.log
 
 //WILL NEED TO EXTEND CLASSES FOR SAVING
-public class Activity: NSObject, NSCoding{
+
+public class Activity: NSObject, NSSecureCoding{
+    public static var supportsSecureCoding: Bool = true
     
+   
     //MARK: Properties
     private(set) var path: [PosTime]!
-    private(set) var avePace: Double!//miliseconds/m
-    private(set) var distance: Double!
+    private(set) var avePace: Double!//m/millisecond possibly change per different activitys
+    private(set) var distance: Double!//distance in Meters
     private(set) var time: Double!//time in miliseconds
     
     //used for easy selection of activity
@@ -48,18 +51,21 @@ public class Activity: NSObject, NSCoding{
             self.distance = 0.0
             return
         }
+        //possibly move to measurementUtils
         var dist:Double = 0
-        for i in 0..<path.count-1{
-            let point1:CLLocation = path[i].pos
-            let point2:CLLocation = path[i+1].pos
-            let calcDist = point2.distance(from: point1)
-            //calculation error check
-            //NOTE DEFINATELY WILL NEED TO CHANGE
-            if calcDist > 0.1 {
+        var prevLocation: CLLocation = path[0].pos
+        for i in 1..<path.count{
+            let nextLocation:CLLocation = path[i].pos
+            let calcDist = prevLocation.distance(from: nextLocation)
+            //only add if the calculated distance is greater then the horizontal accuraty
+    
+            if calcDist > nextLocation.horizontalAccuracy {
+                prevLocation = nextLocation
                 dist += calcDist
             }
         }
         self.distance = dist
+        
     }
     
     private func calcTime(){
@@ -77,26 +83,61 @@ public class Activity: NSObject, NSCoding{
             self.avePace = 0.0
             return
         }
-        self.avePace = time/distance
+        self.avePace = distance/time
     }
+    
     //MARK: NSCoding
+    //OK so i found a thread that pretty much said this will not work
+    //like at all. so idk why 2 load as 0s but i guess i need to learn
+    //codable or some shit that isn't NSKeyedArchiver.
     public func encode(with coder: NSCoder) {
-        coder.encode(path, forKey: PropertyKey.path)
-        coder.encode(distance, forKey: PropertyKey.distance)
-        coder.encode(avePace, forKey: PropertyKey.averagePace)
-        coder.encode(time, forKey: PropertyKey.time)
+        //now know keyedCoding is possible at least should be
+        /*if coder.allowsKeyedCoding {
+            os_log("yay if this doesn't print im fucked")
+        }else{
+            os_log("fuck")
+        }*/
+        
+        coder.encode(self.path as NSArray, forKey: PropertyKey.path)
+        coder.encode(NSNumber(value: self.distance), forKey: PropertyKey.distance)
+        coder.encode(NSNumber(value: self.avePace), forKey: PropertyKey.averagePace)
+        coder.encode(NSNumber(value:self.time), forKey: PropertyKey.time)
+        
     }
     
     public required init?(coder: NSCoder) {
         //long gaurd statement to decode all properties
-        guard let path = coder.decodeObject(forKey: PropertyKey.path) as? [PosTime] , let distance = coder.decodeObject(forKey: PropertyKey.distance) as? Double, let avePace = coder.decodeObject(forKey: PropertyKey.averagePace) as? Double, let time = coder.decodeObject(forKey: PropertyKey.time) as? Double else{
+        //IKIK theres theres warning but fixing them causes errors so whos really wrong?
+        /*guard let path = coder.decodeObject(of: [PosTime.self], forKey: PropertyKey.path) as? [PosTime] ,
+              let distance = coder.decodeObject(forKey: PropertyKey.distance) as? Double,
+              let avePace = coder.decodeObject(forKey: PropertyKey.averagePace) as? Double,
+              let time = coder.decodeObject(forKey: PropertyKey.time) as? Double else{
             
             os_log("could not decode object", type: .error)
             return nil
+        }*/
+       //must use coder.decodeObject(of: forkey:
+        guard let distCode = coder.decodeObject(of: NSNumber.self, forKey: PropertyKey.distance) else{
+            os_log("could not decode distance")
+            return nil
         }
-        self.path = path
-        self.distance = distance
-        self.avePace = avePace
-        self.time = time
+        guard let timeCode = coder.decodeObject(of: NSNumber.self, forKey: PropertyKey.time) else{
+            os_log("could not decode time")
+            return nil
+        }
+        guard let paceCode = coder.decodeObject(of: NSNumber.self, forKey: PropertyKey.averagePace) else{
+            os_log("could not decode pace")
+            return nil
+        }
+        guard let pathCode = coder.decodeObject(of: [NSArray.self, PosTime.self], forKey: PropertyKey.path) else{
+            os_log("could not decode path")
+            return nil
+        }
+        os_log("actually got values", type: .debug)
+        self.path = pathCode as! [PosTime]
+        self.distance = distCode.doubleValue
+        self.avePace = paceCode.doubleValue
+        self.time = timeCode.doubleValue
+        super.init()
     }
 }

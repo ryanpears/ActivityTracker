@@ -32,13 +32,14 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
     private var locationManager: CLLocationManager?
     private var timer:ActivityTimer?
     
-    //private var timerIsRunning = false//used to make sure only one timer runs at a time
     //currently data for each activity will be stored here until the activity is saved
     private var totalActivityTime:Double = 0.0
     private var distance = 0.0
     private var path: [PosTime] = []
-    
-    var activity: Activity?
+    //used for calculating distance in a kinda lazy way.
+    private var lastSignificatePossition: PosTime?
+    //probably should make private
+    private(set) var currentActivity: Activity?
     
     //TEST REMOVE LATER
     //private var testCoords = [CLLocationCoordinate2D]()
@@ -55,6 +56,7 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
             os_log("have premission for location", type: .debug)
             locationManager?.delegate = self
             locationManager?.desiredAccuracy = kCLLocationAccuracyBest //want the most accurate
+            locationManager?.allowsBackgroundLocationUpdates = true //want to update from background
             //set up map view only if the user agrees
             mapView.showsUserLocation = true
 //            let center = CLLocationCoordinate2D(latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude)
@@ -76,11 +78,11 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
         //may want to make the time interval shorter for more accurate times while recording
         timer = ActivityTimer(timeUpdated:{ [weak self] timeInterval in
             //make a strong self in the callback to avoid errors
-            //os_log("in ActivityTimer callback block")
+            os_log("in ActivityTimer callback block")
             guard let strongSelf = self else {
                 return
             }
-            strongSelf.timeDisp.text = strongSelf.timeString(time: timeInterval)
+            strongSelf.timeDisp.text = MeasurementUtils.timeString(time: timeInterval)
             strongSelf.totalActivityTime = timeInterval
             
         })
@@ -118,7 +120,6 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
         }
         //checks the authorization
         //THIS MIGHT NOT BE NESSICARY SINCE WE ARE ALREADY GETTING A LOCATION
-        //NEED TO TEST
         //appends a possition to the path
         let time = totalActivityTime
         let possition = locations[locations.count-1]
@@ -132,13 +133,21 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
         //updates the distance and pace
         //MIGHT MAKE A FUNCTION TO UPDATE THE CORRECT STATS
         if path.count > 1{
-            distance += calcDistance(point1:
-                path[path.count-1].pos, point2: path[path.count-2].pos)
+            //hopefully forceful unwrap won't cause problems.
+            let nextDistance = calcDistance(point1: lastSignificatePossition!.pos,
+                                            point2: path[path.count-1].pos)
+            if nextDistance != 0{
+                distance += nextDistance
+                lastSignificatePossition = path[path.count-1]
+            }
+               
             distanceDisp.text = String(format: "%.2f", distance)
             
             let pace: Double = totalActivityTime/distance
-            paceDisp.text = timeString(time: pace)
+            paceDisp.text = MeasurementUtils.timeString(time: pace)
             
+        }else{
+            lastSignificatePossition = path[0]
         }
        
         //let currentLocation = path[path.count-1].pos
@@ -192,23 +201,33 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
             return
         }
         //new activity created to be passed to table view
-        activity = Activity(path: path)
-        
+        currentActivity = Activity(path: path)
+        os_log("activity created unwinding now", type: .debug)
     }
     
     //MARK: private functions
-    private func timeString(time: Double) -> String {
+    /*private func timeString(time: Double) -> String {
+        //checking for valid input
+        if time.isNaN || time.isInfinite {
+            return String(format: "%.2d:%.2d", 0, 0)
+        }
+        
         let seconds = Int(time.truncatingRemainder(dividingBy: 60))
         let minutes = Int(time.truncatingRemainder(dividingBy: 60 * 60) / 60)
         return String(format: "%.2d:%.2d", minutes, seconds)
-    }
+    }*/
     
     //Note: this is inacurrate I will need to account for error a bit better.
+    //possibly move this to MeasurementUtils
     private func calcDistance(point1: CLLocation, point2: CLLocation) -> Double{
         var dist = point1.distance(from: point2)
-        //convert to km and round to avoid larger recorded distances
-        dist = Double(round(dist*1000)/1000000)
-        return dist
+        if dist > point2.horizontalAccuracy {
+            //convert to km and round to avoid larger recorded distances
+            dist = Double(round(dist*1000)/1000000)
+            return dist
+        }
+        //not accurate enough
+        return 0
     }
     
     private func setMapRegion(currentLocation: CLLocation){

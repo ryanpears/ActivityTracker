@@ -23,8 +23,10 @@ class ProfileTableViewController: UITableViewController {
     //private let appDelegate = UIApplication.shared.delegate as! AppDelegate
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         //loadSampleActivity()
         fetch()
@@ -38,6 +40,8 @@ class ProfileTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
+    
+    
 
     // MARK: - Table view data source
     //maybe will need to change
@@ -59,14 +63,14 @@ class ProfileTableViewController: UITableViewController {
         let cellIdentifier = "ActivityTableViewCell"
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? ActivityTableViewCell else{
             fatalError("shit")
-        }
+            }
+        
         let activity = activities[indexPath.row]
         
         cell.setPath(path: activity.path)
-        cell.distanceDisp.text = String(format: "%0.2f", activity.distance)
-        cell.avePaceDisp.text = String(format: "%0.2f", activity.avePace)
-        cell.timeDisp.text = String(format: "%0.2f", activity.time)
-        
+        cell.setTime(time: activity.time)
+        cell.setPace(pace: activity.avePace)
+        cell.setDistance(distance: activity.distance)
         
         return cell
     }
@@ -114,9 +118,9 @@ class ProfileTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "addActivity"{
-            //DO NOTHING RN 
+            //DO NOTHING FOR NOW may add stuff later.
         }else if segue.identifier == "showActivity"{
-            // I think I need to make another view
+            //TODO: add showActivity view/controller.
             if let destVC = segue.destination as? ActivityViewController{
                 //destVC.activity = activities[IndexPath.row]
             }
@@ -124,23 +128,36 @@ class ProfileTableViewController: UITableViewController {
     }
     //MARK: Actions
     @IBAction func unwindToProfile(sender: UIStoryboardSegue){
-        if let sourceVC = sender.source as? ActivityViewController, let newActivity = sourceVC.activity{
+        if let sourceVC = sender.source as? ActivityViewController,
+           let newActivity = sourceVC.currentActivity{
             //add another row
             let newIndexPath = IndexPath(row: activities.count, section: 0)
-            activities.append(newActivity)
+            //adds first
+            activities.insert(newActivity, at: 0)
             tableView.insertRows(at: [newIndexPath], with: .top)
+            os_log("new activity added to activity array", type: .debug)
+            //reload data this feels a little hacky probably will change.
+            tableView.reloadData()
             //create the coreData model to be saved
             let wrappedActivityDescription = NSEntityDescription.entity(forEntityName: "ActivityDataModel", in: context)!
             let wrappedActivity = ActivityDataModel(entity: wrappedActivityDescription, insertInto: self.context)
             wrappedActivity.activity = newActivity
+            if wrappedActivity.activity == nil {
+                fatalError("activity is nil this is bad")
+            }
+            //did not work
+            //self.context.refresh(wrappedActivity, mergeChanges: true)
             //save the data
             save()
+            
         }
     }
     
     //MARK: CoreData Saving/Loading
     private func save(){
         do{
+            //name change to stop weird coredata stuff
+            NSKeyedArchiver.setClassName("ActivityTracker.activity", for: Activity.self)
             try self.context.save()
         }catch{
             print("error saving data: \(error)")
@@ -149,10 +166,12 @@ class ProfileTableViewController: UITableViewController {
     
     private func fetch(){
         do{
+            //name change to stop weird coredata stuff
+            NSKeyedUnarchiver.setClass(Activity.self, forClassName: "ActivityTracker.activity")
             let data:[ActivityDataModel] = try context.fetch(ActivityDataModel.fetchRequest())
             for wrappedActivity in data{
                 if wrappedActivity.activity != nil{
-                    self.activities.append(wrappedActivity.activity!)
+                    self.activities.insert(wrappedActivity.activity!, at:0)
                 }
             }
             //reload data

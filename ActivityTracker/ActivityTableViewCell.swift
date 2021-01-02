@@ -77,5 +77,32 @@ class ActivityTableViewCell: UITableViewCell, MKMapViewDelegate {
     func setPath(path: [PosTime]){
         self.path = path
     }
+    
+    //TODO add a meteric and imperial version 
+    func setTime(time: Double){
+        self.timeDisp.text = MeasurementUtils.timeString(time: time) + " min"
+    }
+    
+    func setPace(pace: Double){
+        let newPace = MeasurementUtils.millisecondsPerMeterToKilometersPerHour(mspm: pace)
+        self.avePaceDisp.text = MeasurementUtils.timeString(time: newPace) + " km/min"
+    }
+    
+    func setDistance(distance: Double){
+        let distanceInKm = MeasurementUtils.metersToKilometers(m: distance)
+        self.distanceDisp.text = String(format: "%.2f km", distanceInKm)
+    }
+    
+    //MARK: private functions probably replace
+    /*private func timeString(time: Double) -> String {
+        //checking for valid input
+        if time.isNaN || time.isInfinite {
+            return String(format: "%.2d:%.2d", 0, 0)
+        }
+        
+        let seconds = Int(time.truncatingRemainder(dividingBy: 60))
+        let minutes = Int(time.truncatingRemainder(dividingBy: 60 * 60) / 60)
+        return String(format: "%.2d:%.2d", minutes, seconds)
+    }*/
 
 }

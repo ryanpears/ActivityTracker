@@ -63,6 +63,11 @@ class ActivityTableViewCell: UITableViewCell, MKMapViewDelegate {
         mapView.setRegion(region, animated: true)
     }
     
+    private func setMapRegion(line: MKPolyline){
+        mapView.setVisibleMapRect(line.boundingMapRect, edgePadding: UIEdgeInsets.init(top:50, left: 50, bottom: 50, right: 50), animated: false)
+        
+    }
+    
     //MARK: setters
     func setPath(path: [PosTime]){
         self.path = path
@@ -77,7 +82,8 @@ class ActivityTableViewCell: UITableViewCell, MKMapViewDelegate {
 
 
             let line = MKPolyline(coordinates: possitionsInTwoD, count: possitionsInTwoD.count)
-            setMapRegion(centerLocation: path[0].pos)
+            //setMapRegion(centerLocation: path[0].pos)
+            setMapRegion(line: line)
             mapView.addOverlay(line)
         }
     }
@@ -97,16 +103,4 @@ class ActivityTableViewCell: UITableViewCell, MKMapViewDelegate {
         self.distanceDisp.text = String(format: "%.2f km", distanceInKm)
     }
     
-    //MARK: private functions probably replace
-    /*private func timeString(time: Double) -> String {
-        //checking for valid input
-        if time.isNaN || time.isInfinite {
-            return String(format: "%.2d:%.2d", 0, 0)
-        }
-        
-        let seconds = Int(time.truncatingRemainder(dividingBy: 60))
-        let minutes = Int(time.truncatingRemainder(dividingBy: 60 * 60) / 60)
-        return String(format: "%.2d:%.2d", minutes, seconds)
-    }*/
-
 }

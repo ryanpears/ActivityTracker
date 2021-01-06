@@ -14,8 +14,8 @@
             filePath = "ActivityTracker/Activity.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "57"
-            endingLineNumber = "57"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
             landmarkName = "calcDistance()"
             landmarkType = "7">
             <Locations>
@@ -62,8 +62,8 @@
             filePath = "ActivityTracker/ActivityTableViewCell.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "97"
-            endingLineNumber = "97"
+            startingLineNumber = "103"
+            endingLineNumber = "103"
             landmarkName = "setDistance(distance:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -78,8 +78,8 @@
             filePath = "ActivityTracker/Activity.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "108"
-            endingLineNumber = "108"
+            startingLineNumber = "109"
+            endingLineNumber = "109"
             landmarkName = "init(coder:)"
             landmarkType = "7">
             <Locations>
@@ -126,8 +126,8 @@
             filePath = "ActivityTracker/Activity.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "93"
-            endingLineNumber = "93"
+            startingLineNumber = "94"
+            endingLineNumber = "94"
             landmarkName = "encode(with:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -238,8 +238,8 @@
             filePath = "ActivityTracker/Activity.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "102"
-            endingLineNumber = "102"
+            startingLineNumber = "103"
+            endingLineNumber = "103"
             landmarkName = "encode(with:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -254,8 +254,8 @@
             filePath = "ActivityTracker/Activity.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "120"
-            endingLineNumber = "120"
+            startingLineNumber = "112"
+            endingLineNumber = "112"
             landmarkName = "init(coder:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -270,8 +270,8 @@
             filePath = "ActivityTracker/Activity.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "141"
-            endingLineNumber = "141"
+            startingLineNumber = "133"
+            endingLineNumber = "133"
             landmarkName = "init(coder:)"
             landmarkType = "7">
          </BreakpointContent>

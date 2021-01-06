@@ -10,7 +10,8 @@ import Foundation
 import CoreLocation
 import os.log
 
-//WILL NEED TO EXTEND CLASSES FOR SAVING
+//TODO: eventually need to switch entirely to CoreData sicne NSKeyedArchiever is getting removed at some point.
+//TODO: when switching entirely to CoreData make this class be a super class to be inhertied by different activities such as run, hike, bike, etc.
 
 public class Activity: NSObject, NSSecureCoding{
     public static var supportsSecureCoding: Bool = true
@@ -107,15 +108,6 @@ public class Activity: NSObject, NSSecureCoding{
     
     public required init?(coder: NSCoder) {
         //long gaurd statement to decode all properties
-        //IKIK theres theres warning but fixing them causes errors so whos really wrong?
-        /*guard let path = coder.decodeObject(of: [PosTime.self], forKey: PropertyKey.path) as? [PosTime] ,
-              let distance = coder.decodeObject(forKey: PropertyKey.distance) as? Double,
-              let avePace = coder.decodeObject(forKey: PropertyKey.averagePace) as? Double,
-              let time = coder.decodeObject(forKey: PropertyKey.time) as? Double else{
-            
-            os_log("could not decode object", type: .error)
-            return nil
-        }*/
        //must use coder.decodeObject(of: forkey:
         guard let distCode = coder.decodeObject(of: NSNumber.self, forKey: PropertyKey.distance) else{
             os_log("could not decode distance")

@@ -33,18 +33,8 @@ class ActivityTableViewCell: UITableViewCell, MKMapViewDelegate {
         super.awakeFromNib()
         // should set up the map view
         mapView.delegate = self
-        if !path.isEmpty{
-           var possitionsInTwoD = [CLLocationCoordinate2D]()
-            for case let point in path{
-                let coordinate = CLLocationCoordinate2D(latitude: point.pos.coordinate.latitude, longitude: point.pos.coordinate.longitude)
-                possitionsInTwoD.append(coordinate)
-            }
-
-
-            let line = MKPolyline(coordinates: possitionsInTwoD, count: possitionsInTwoD.count)
-            setMapRegion(currentLocation: path[0].pos)
-            mapView.addOverlay(line)
-        }
+        mapView.isZoomEnabled = true
+        mapView.isScrollEnabled = true
         
     }
 
@@ -66,16 +56,33 @@ class ActivityTableViewCell: UITableViewCell, MKMapViewDelegate {
         return MKPolylineRenderer()//returns nothing
     }
     
-    private func setMapRegion(currentLocation: CLLocation){
-        let center = CLLocationCoordinate2D(latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude)
+    private func setMapRegion(centerLocation: CLLocation){
+        let center = CLLocationCoordinate2D(latitude: centerLocation.coordinate.latitude, longitude: centerLocation.coordinate.longitude)
         let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
 
         mapView.setRegion(region, animated: true)
     }
     
+    private func formatMapForCell(){
+        
+        if !path.isEmpty{
+           var possitionsInTwoD = [CLLocationCoordinate2D]()
+            for case let point in path{
+                let coordinate = CLLocationCoordinate2D(latitude: point.pos.coordinate.latitude, longitude: point.pos.coordinate.longitude)
+                possitionsInTwoD.append(coordinate)
+            }
+            let line = MKPolyline(coordinates: possitionsInTwoD, count: possitionsInTwoD.count)
+            //setMapRegion(centerLocation: path[0].pos)
+            mapView.setVisibleMapRect(line.boundingMapRect, edgePadding: UIEdgeInsets.init(top:50, left: 50, bottom: 50, right: 50), animated: false)
+            mapView.addOverlay(line)
+        }
+    }
+    
     //MARK: setters
     func setPath(path: [PosTime]){
         self.path = path
+        //can only do this after given a path
+        formatMapForCell()
     }
     
     //TODO add a meteric and imperial version 
@@ -85,7 +92,7 @@ class ActivityTableViewCell: UITableViewCell, MKMapViewDelegate {
     
     func setPace(pace: Double){
         let newPace = MeasurementUtils.millisecondsPerMeterToKilometersPerHour(mspm: pace)
-        self.avePaceDisp.text = MeasurementUtils.timeString(time: newPace) + " km/min"
+        self.avePaceDisp.text = MeasurementUtils.timeString(time: newPace) + " kph"
     }
     
     func setDistance(distance: Double){
@@ -93,16 +100,4 @@ class ActivityTableViewCell: UITableViewCell, MKMapViewDelegate {
         self.distanceDisp.text = String(format: "%.2f km", distanceInKm)
     }
     
-    //MARK: private functions probably replace
-    /*private func timeString(time: Double) -> String {
-        //checking for valid input
-        if time.isNaN || time.isInfinite {
-            return String(format: "%.2d:%.2d", 0, 0)
-        }
-        
-        let seconds = Int(time.truncatingRemainder(dividingBy: 60))
-        let minutes = Int(time.truncatingRemainder(dividingBy: 60 * 60) / 60)
-        return String(format: "%.2d:%.2d", minutes, seconds)
-    }*/
-
 }

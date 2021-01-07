@@ -19,6 +19,8 @@ class ProfileTableViewController: UITableViewController {
     
     //MARK: Properties
     private var activities = [Activity]()
+    //used in deletion This is a bad idea since my coredata entity is wack and I need to fix
+    private var managedActivities = [ActivityDataModel]()
     //needed to use coreData saving and loading
     //private let appDelegate = UIApplication.shared.delegate as! AppDelegate
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -76,25 +78,26 @@ class ProfileTableViewController: UITableViewController {
     }
     
 
-    /*
+    
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
+        // all rows should be editible
         return true
     }
-    */
+    
 
-    /*
+    
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            os_log("deleting activity now", type: .debug)
             // Delete the row from the data source
+            self.deleteCell(forCell: indexPath.row)
+            //not sure if I need self but being safe
             tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+        }
     }
-    */
+    
 
     /*
     // Override to support rearranging the table view.
@@ -172,6 +175,10 @@ class ProfileTableViewController: UITableViewController {
             for wrappedActivity in data{
                 if wrappedActivity.activity != nil{
                     self.activities.insert(wrappedActivity.activity!, at:0)
+                    //inserting the entity to a seperate array.
+                    self.managedActivities.insert(wrappedActivity, at:0)
+                }else{
+                    deleteUnreadableManagedObject(managedObject: wrappedActivity)
                 }
             }
             //reload data
@@ -181,6 +188,19 @@ class ProfileTableViewController: UITableViewController {
         }catch{
             print("error fetching data: \(error)")
         }
+    }
+    
+    private func deleteUnreadableManagedObject(managedObject: ActivityDataModel){
+        context.delete(managedObject)
+    }
+    /**
+            deletes the cell at the row given
+     */
+    private func deleteCell(forCell: Int){
+        context.delete(managedActivities[forCell])
+        self.activities.remove(at: forCell)
+        self.managedActivities.remove(at: forCell)
+        self.save()
     }
     
     //MARK: private test functions

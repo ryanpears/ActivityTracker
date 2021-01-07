@@ -48,26 +48,9 @@ public class PosTime: NSObject, NSSecureCoding{
     public func encode(with coder: NSCoder) {
         coder.encode(NSNumber(value: time), forKey: PropertyKey.time)
         coder.encode(pos, forKey: PropertyKey.possition)
-        
-        
-        /*if !(coder.containsValue(forKey: PropertyKey.time)){
-            os_log("PosTime.time not encoded properly", type: .error)
-            fatalError("time was not encoded")
-        }*/
-       /* let posBool = coder.containsValue(forKey: PropertyKey.possition)
-        if !posBool{
-            os_log("PosTime.pos not encoded properly", type: .error)
-            fatalError("possition was not encoded")
-        }*/
     }
     
     public required init?(coder: NSCoder) {
-        /*
-        guard let time = coder.decodeObject(forKey: PropertyKey.time) as? Double, let pos = coder.decodeObject(forKey: PropertyKey.possition) as? CLLocation else{
-            os_log("cannot decode data", type: .error)
-            return nil
-        }
-        */
         guard let time = coder.decodeObject(of: NSNumber.self, forKey: PropertyKey.time)
         else{
             os_log("cannot decode PosTime.time", type: .error)

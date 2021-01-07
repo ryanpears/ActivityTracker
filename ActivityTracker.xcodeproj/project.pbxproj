@@ -110,12 +110,12 @@
 				035845B524D3D8570075A2E1 /* PosTime.swift */,
 				035845B124D3D22F0075A2E1 /* Activity.swift */,
 				037D388324E098BD00867082 /* ActivityTimer.swift */,
+				03B79DC0259274D8000D85BB /* MeasurementUtils.swift */,
 				0358458E24D1DB430075A2E1 /* Main.storyboard */,
 				0358459424D1DB480075A2E1 /* Assets.xcassets */,
 				0358459624D1DB480075A2E1 /* LaunchScreen.storyboard */,
 				0358459924D1DB480075A2E1 /* Info.plist */,
 				0358459124D1DB430075A2E1 /* ActivityTracker.xcdatamodeld */,
-				03B79DC0259274D8000D85BB /* MeasurementUtils.swift */,
 			);
 			path = ActivityTracker;
 			sourceTree = "<group>";

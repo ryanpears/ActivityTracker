@@ -63,29 +63,26 @@ class ActivityTableViewCell: UITableViewCell, MKMapViewDelegate {
         mapView.setRegion(region, animated: true)
     }
     
-    private func setMapRegion(line: MKPolyline){
-        mapView.setVisibleMapRect(line.boundingMapRect, edgePadding: UIEdgeInsets.init(top:50, left: 50, bottom: 50, right: 50), animated: false)
+    private func formatMapForCell(){
         
-    }
-    
-    //MARK: setters
-    func setPath(path: [PosTime]){
-        self.path = path
-        
-        //can only do this after given a path
         if !path.isEmpty{
            var possitionsInTwoD = [CLLocationCoordinate2D]()
             for case let point in path{
                 let coordinate = CLLocationCoordinate2D(latitude: point.pos.coordinate.latitude, longitude: point.pos.coordinate.longitude)
                 possitionsInTwoD.append(coordinate)
             }
-
-
             let line = MKPolyline(coordinates: possitionsInTwoD, count: possitionsInTwoD.count)
             //setMapRegion(centerLocation: path[0].pos)
-            setMapRegion(line: line)
+            mapView.setVisibleMapRect(line.boundingMapRect, edgePadding: UIEdgeInsets.init(top:50, left: 50, bottom: 50, right: 50), animated: false)
             mapView.addOverlay(line)
         }
+    }
+    
+    //MARK: setters
+    func setPath(path: [PosTime]){
+        self.path = path
+        //can only do this after given a path
+        formatMapForCell()
     }
     
     //TODO add a meteric and imperial version 

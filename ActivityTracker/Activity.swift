@@ -92,13 +92,6 @@ public class Activity: NSObject, NSSecureCoding{
     //like at all. so idk why 2 load as 0s but i guess i need to learn
     //codable or some shit that isn't NSKeyedArchiver.
     public func encode(with coder: NSCoder) {
-        //now know keyedCoding is possible at least should be
-        /*if coder.allowsKeyedCoding {
-            os_log("yay if this doesn't print im fucked")
-        }else{
-            os_log("fuck")
-        }*/
-        
         coder.encode(self.path as NSArray, forKey: PropertyKey.path)
         coder.encode(NSNumber(value: self.distance), forKey: PropertyKey.distance)
         coder.encode(NSNumber(value: self.avePace), forKey: PropertyKey.averagePace)
@@ -107,7 +100,6 @@ public class Activity: NSObject, NSSecureCoding{
     }
     
     public required init?(coder: NSCoder) {
-        //long gaurd statement to decode all properties
        //must use coder.decodeObject(of: forkey:
         guard let distCode = coder.decodeObject(of: NSNumber.self, forKey: PropertyKey.distance) else{
             os_log("could not decode distance")
@@ -125,7 +117,7 @@ public class Activity: NSObject, NSSecureCoding{
             os_log("could not decode path")
             return nil
         }
-        os_log("actually got values", type: .debug)
+        os_log("got values creating object now", type: .debug)
         self.path = pathCode as! [PosTime]
         self.distance = distCode.doubleValue
         self.avePace = paceCode.doubleValue

@@ -85,7 +85,7 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
         saveButton.isEnabled = false
         //Zero out the stats
         timeDisp.text = MeasurementUtils.timeString(time: 0) + " \nmin"
-        paceDisp.text = MeasurementUtils.timeString(time: 0) + " \nkm/min"
+        paceDisp.text = MeasurementUtils.timeString(time: 0) + " \nkph"
         distanceDisp.text = String(format: "%.2f", 0) + " \nkm"
     }
     

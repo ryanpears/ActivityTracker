@@ -92,7 +92,7 @@ class ActivityTableViewCell: UITableViewCell, MKMapViewDelegate {
     
     func setPace(pace: Double){
         let newPace = MeasurementUtils.millisecondsPerMeterToKilometersPerHour(mspm: pace)
-        self.avePaceDisp.text = MeasurementUtils.timeString(time: newPace) + " km/min"
+        self.avePaceDisp.text = MeasurementUtils.timeString(time: newPace) + " kph"
     }
     
     func setDistance(distance: Double){

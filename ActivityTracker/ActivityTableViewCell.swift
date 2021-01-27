@@ -27,7 +27,7 @@ class ActivityTableViewCell: UITableViewCell, MKMapViewDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
     
-    private var path: [PosTime] = []
+    private var path: [CLLocation] = []
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -68,7 +68,7 @@ class ActivityTableViewCell: UITableViewCell, MKMapViewDelegate {
         if !path.isEmpty{
            var possitionsInTwoD = [CLLocationCoordinate2D]()
             for case let point in path{
-                let coordinate = CLLocationCoordinate2D(latitude: point.pos.coordinate.latitude, longitude: point.pos.coordinate.longitude)
+                let coordinate = CLLocationCoordinate2D(latitude: point.coordinate.latitude, longitude: point.coordinate.longitude)
                 possitionsInTwoD.append(coordinate)
             }
             let line = MKPolyline(coordinates: possitionsInTwoD, count: possitionsInTwoD.count)
@@ -79,7 +79,7 @@ class ActivityTableViewCell: UITableViewCell, MKMapViewDelegate {
     }
     
     //MARK: setters
-    func setPath(path: [PosTime]){
+    func setPath(path: [CLLocation]){
         self.path = path
         //can only do this after given a path
         formatMapForCell()

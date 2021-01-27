@@ -148,8 +148,6 @@ class ProfileTableViewController: UITableViewController {
             if wrappedActivity.activity == nil {
                 fatalError("activity is nil this is bad")
             }
-            //did not work
-            //self.context.refresh(wrappedActivity, mergeChanges: true)
             //save the data
             save()
             
@@ -187,6 +185,7 @@ class ProfileTableViewController: UITableViewController {
             }
         }catch{
             print("error fetching data: \(error)")
+            //possibly change to different type of ACTivity.
         }
     }
     
@@ -204,7 +203,7 @@ class ProfileTableViewController: UITableViewController {
     }
     
     //MARK: private test functions
-    private func loadSampleActivity(){
+   /* private func loadSampleActivity(){
         var path:[PosTime] = []
         path.append(PosTime.init(time:0, possition: CLLocation(latitude:  44.098681, longitude: -114.955616))!)
         path.append(PosTime.init(time: 1840, possition: CLLocation(latitude:  44.0842558, longitude: -114.9731255))!)
@@ -213,6 +212,6 @@ class ProfileTableViewController: UITableViewController {
         path.append(PosTime.init(time: 6000, possition:CLLocation(latitude:  44.0549014, longitude: -115.0131226))!)
         let act1 = Activity.init(path: path)
         activities.append(act1)
-    }
+    }*/
 }
 

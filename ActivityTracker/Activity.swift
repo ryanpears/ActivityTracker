@@ -18,7 +18,7 @@ public class Activity: NSObject, NSSecureCoding{
     
    
     //MARK: Properties
-    private(set) var path: [PosTime]!
+    private(set) var path: [CLLocation]!
     private(set) var avePace: Double!//m/millisecond possibly change per different activitys
     private(set) var distance: Double!//distance in Meters
     private(set) var time: Double!//time in miliseconds
@@ -36,7 +36,7 @@ public class Activity: NSObject, NSSecureCoding{
     }
     
     //MARK: Inits
-    init(path: [PosTime]){
+    init(path: [CLLocation]){
         super.init()
         self.path = path
         self.calcDistance()
@@ -54,9 +54,9 @@ public class Activity: NSObject, NSSecureCoding{
         }
         //possibly move to measurementUtils
         var dist:Double = 0
-        var prevLocation: CLLocation = path[0].pos
+        var prevLocation: CLLocation = path[0]
         for i in 1..<path.count{
-            let nextLocation:CLLocation = path[i].pos
+            let nextLocation:CLLocation = path[i]
             let calcDist = prevLocation.distance(from: nextLocation)
             //only add if the calculated distance is greater then the horizontal accuraty
     
@@ -75,7 +75,9 @@ public class Activity: NSObject, NSSecureCoding{
             self.time = 0.0
             return
         }
-        self.time = path[path.count-1].time
+        //really hope this is ok
+        //calculates time between last recorded possitions
+        self.time = path[path.count-1].timestamp.timeIntervalSince(path[0].timestamp)
     }
     
     private func calcAvePace(){
@@ -113,12 +115,12 @@ public class Activity: NSObject, NSSecureCoding{
             os_log("could not decode pace")
             return nil
         }
-        guard let pathCode = coder.decodeObject(of: [NSArray.self, PosTime.self], forKey: PropertyKey.path) else{
+        guard let pathCode = coder.decodeObject(of: [NSArray.self, CLLocation.self], forKey: PropertyKey.path) else{
             os_log("could not decode path")
             return nil
         }
         os_log("got values creating object now", type: .debug)
-        self.path = pathCode as! [PosTime]
+        self.path = pathCode as! [CLLocation]
         self.distance = distCode.doubleValue
         self.avePace = paceCode.doubleValue
         self.time = timeCode.doubleValue

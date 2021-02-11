@@ -26,7 +26,7 @@ class ActivityTableViewCell: UITableViewCell, MKMapViewDelegate {
     @IBOutlet weak var timeDisp: UILabel!
     
     @IBOutlet weak var mapView: MKMapView!
-    
+    private var pathLine: MKPolyline?
     private var path: [CLLocation] = []
     
     override func awakeFromNib() {
@@ -71,10 +71,19 @@ class ActivityTableViewCell: UITableViewCell, MKMapViewDelegate {
                 let coordinate = CLLocationCoordinate2D(latitude: point.coordinate.latitude, longitude: point.coordinate.longitude)
                 possitionsInTwoD.append(coordinate)
             }
-            let line = MKPolyline(coordinates: possitionsInTwoD, count: possitionsInTwoD.count)
-            //setMapRegion(centerLocation: path[0].pos)
-            mapView.setVisibleMapRect(line.boundingMapRect, edgePadding: UIEdgeInsets.init(top:50, left: 50, bottom: 50, right: 50), animated: false)
-            mapView.addOverlay(line)
+            let newLine:MKPolyline = MKPolyline(coordinates: possitionsInTwoD, count: possitionsInTwoD.count)
+            
+            //remove old path from old version of this cell
+            if self.pathLine != nil{
+                mapView.removeOverlay(self.pathLine!)
+            }
+            
+            mapView.setVisibleMapRect(newLine.boundingMapRect, edgePadding: UIEdgeInsets.init(top:50, left: 50, bottom: 50, right: 50), animated: false)
+            
+            //adds new line to map
+            self.pathLine = newLine
+            mapView.addOverlay(pathLine!)
+            
         }
     }
     

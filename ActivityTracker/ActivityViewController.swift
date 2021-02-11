@@ -35,11 +35,11 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
     //currently data for each activity will be stored here until the activity is saved
     private var totalActivityTime:Double = 0.0
     private var distance = 0.0
-    private var path: [CLLocation] = []
+    private(set) var path: [CLLocation] = []
     //used for calculating distance in a kinda lazy way.
     private var lastSignificatePossition: CLLocation?
     //probably should make private
-    private(set) var currentActivity: Activity?
+    //private(set) var currentActivity: Activity?
     
     //TEST REMOVE LATER
     //private var testCoords = [CLLocationCoordinate2D]()
@@ -188,9 +188,10 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
             return
         }
         //new activity created to be passed to table view
-        currentActivity = Activity(path: path)
         os_log("activity created unwinding now", type: .debug)
     }
+    
+    
     
     //MARK: private functions
     /*private func timeString(time: Double) -> String {

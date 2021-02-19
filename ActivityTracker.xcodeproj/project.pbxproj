@@ -94,20 +94,13 @@
 		0358458724D1DB430075A2E1 /* ActivityTracker */ = {
 			isa = PBXGroup;
 			children = (
-				030B5DCD25C25AD300C7FC5B /* Activity+CoreDataClass.swift */,
-				03EE4FE625CB6AB700F18A31 /* Activity+CoreDataProperties.swift */,
-				0358458824D1DB430075A2E1 /* AppDelegate.swift */,
-				0358458A24D1DB430075A2E1 /* SceneDelegate.swift */,
-				0358458C24D1DB430075A2E1 /* ActivityViewController.swift */,
-				03870A9124E1A26D007A4A94 /* ActivityTableViewCell.swift */,
-				035845AD24D1DE550075A2E1 /* ProfileTableViewController.swift */,
-				037D388324E098BD00867082 /* ActivityTimer.swift */,
-				03B79DC0259274D8000D85BB /* MeasurementUtils.swift */,
-				0358458E24D1DB430075A2E1 /* Main.storyboard */,
-				0358459424D1DB480075A2E1 /* Assets.xcassets */,
-				0358459624D1DB480075A2E1 /* LaunchScreen.storyboard */,
 				0358459924D1DB480075A2E1 /* Info.plist */,
-				0358459124D1DB430075A2E1 /* ActivityTracker.xcdatamodeld */,
+				038E3F3C25DF6DC8006D1824 /* AppleClasses */,
+				038E3F3725DF6CE5006D1824 /* Utilities */,
+				038E3F3625DF6CCE006D1824 /* Models */,
+				038E3F3525DF6CAA006D1824 /* Views */,
+				038E3F3325DF6C7C006D1824 /* Controllers */,
+				038E3F3225DF6C58006D1824 /* CoreDataModels */,
 			);
 			path = ActivityTracker;
 			sourceTree = "<group>";
@@ -119,6 +112,61 @@
 				035845A424D1DB480075A2E1 /* Info.plist */,
 			);
 			path = ActivityTrackerTests;
+			sourceTree = "<group>";
+		};
+		038E3F3225DF6C58006D1824 /* CoreDataModels */ = {
+			isa = PBXGroup;
+			children = (
+				0358459124D1DB430075A2E1 /* ActivityTracker.xcdatamodeld */,
+				030B5DCD25C25AD300C7FC5B /* Activity+CoreDataClass.swift */,
+				03EE4FE625CB6AB700F18A31 /* Activity+CoreDataProperties.swift */,
+			);
+			path = CoreDataModels;
+			sourceTree = "<group>";
+		};
+		038E3F3325DF6C7C006D1824 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				0358458C24D1DB430075A2E1 /* ActivityViewController.swift */,
+				03870A9124E1A26D007A4A94 /* ActivityTableViewCell.swift */,
+				035845AD24D1DE550075A2E1 /* ProfileTableViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		038E3F3525DF6CAA006D1824 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0358458E24D1DB430075A2E1 /* Main.storyboard */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		038E3F3625DF6CCE006D1824 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				037D388324E098BD00867082 /* ActivityTimer.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		038E3F3725DF6CE5006D1824 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				03B79DC0259274D8000D85BB /* MeasurementUtils.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		038E3F3C25DF6DC8006D1824 /* AppleClasses */ = {
+			isa = PBXGroup;
+			children = (
+				0358458824D1DB430075A2E1 /* AppDelegate.swift */,
+				0358458A24D1DB430075A2E1 /* SceneDelegate.swift */,
+				0358459424D1DB480075A2E1 /* Assets.xcassets */,
+				0358459624D1DB480075A2E1 /* LaunchScreen.storyboard */,
+			);
+			path = AppleClasses;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

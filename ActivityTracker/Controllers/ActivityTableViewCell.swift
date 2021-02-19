@@ -26,8 +26,8 @@ class ActivityTableViewCell: UITableViewCell, MKMapViewDelegate {
     @IBOutlet weak var timeDisp: UILabel!
     
     @IBOutlet weak var mapView: MKMapView!
-    
-    private var path: [PosTime] = []
+    private var pathLine: MKPolyline?
+    private var path: [CLLocation] = []
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -68,18 +68,27 @@ class ActivityTableViewCell: UITableViewCell, MKMapViewDelegate {
         if !path.isEmpty{
            var possitionsInTwoD = [CLLocationCoordinate2D]()
             for case let point in path{
-                let coordinate = CLLocationCoordinate2D(latitude: point.pos.coordinate.latitude, longitude: point.pos.coordinate.longitude)
+                let coordinate = CLLocationCoordinate2D(latitude: point.coordinate.latitude, longitude: point.coordinate.longitude)
                 possitionsInTwoD.append(coordinate)
             }
-            let line = MKPolyline(coordinates: possitionsInTwoD, count: possitionsInTwoD.count)
-            //setMapRegion(centerLocation: path[0].pos)
-            mapView.setVisibleMapRect(line.boundingMapRect, edgePadding: UIEdgeInsets.init(top:50, left: 50, bottom: 50, right: 50), animated: false)
-            mapView.addOverlay(line)
+            let newLine:MKPolyline = MKPolyline(coordinates: possitionsInTwoD, count: possitionsInTwoD.count)
+            
+            //remove old path from old version of this cell
+            if self.pathLine != nil{
+                mapView.removeOverlay(self.pathLine!)
+            }
+            
+            mapView.setVisibleMapRect(newLine.boundingMapRect, edgePadding: UIEdgeInsets.init(top:50, left: 50, bottom: 50, right: 50), animated: false)
+            
+            //adds new line to map
+            self.pathLine = newLine
+            mapView.addOverlay(pathLine!)
+            
         }
     }
     
     //MARK: setters
-    func setPath(path: [PosTime]){
+    func setPath(path: [CLLocation]){
         self.path = path
         //can only do this after given a path
         formatMapForCell()

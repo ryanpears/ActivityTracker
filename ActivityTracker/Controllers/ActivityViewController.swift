@@ -35,11 +35,11 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
     //currently data for each activity will be stored here until the activity is saved
     private var totalActivityTime:Double = 0.0
     private var distance = 0.0
-    private var path: [PosTime] = []
+    private(set) var path: [CLLocation] = []
     //used for calculating distance in a kinda lazy way.
-    private var lastSignificatePossition: PosTime?
+    private var lastSignificatePossition: CLLocation?
     //probably should make private
-    private(set) var currentActivity: Activity?
+    //private(set) var currentActivity: Activity?
     
     //TEST REMOVE LATER
     //private var testCoords = [CLLocationCoordinate2D]()
@@ -112,21 +112,17 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
         //checks the authorization
         //THIS MIGHT NOT BE NESSICARY SINCE WE ARE ALREADY GETTING A LOCATION
         //appends a possition to the path
-        let time = totalActivityTime
-        let possition = locations[locations.count-1]
-        guard let currPosTime = PosTime(time: time, possition: possition) else{
-            os_log("Failed to initilize last possition", type: .debug)
-            return
-        }
-        path.append(currPosTime)
+        //let time = totalActivityTime
+        let currPoss = locations[locations.count-1]
+        path.append(currPoss)
         os_log("appending current location", type: .debug)
         
         //updates the distance and pace
         //MIGHT MAKE A FUNCTION TO UPDATE THE CORRECT STATS
         if path.count > 1{
             //hopefully forceful unwrap won't cause problems.
-            let nextDistance = calcDistance(point1: lastSignificatePossition!.pos,
-                                            point2: path[path.count-1].pos)
+            let nextDistance = calcDistance(point1: lastSignificatePossition!,
+                                            point2: path[path.count-1])
             if nextDistance != 0{
                 distance += nextDistance
                 lastSignificatePossition = path[path.count-1]
@@ -147,14 +143,14 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
         //MayAlso make this a different func
         var possitionsInTwoD = [CLLocationCoordinate2D]()
         for case let point in path{//loops over non-nil(kinda cool)
-            let coordinate = CLLocationCoordinate2D(latitude: point.pos.coordinate.latitude, longitude: point.pos.coordinate.longitude)
+            let coordinate = CLLocationCoordinate2D(latitude: point.coordinate.latitude, longitude: point.coordinate.longitude)
             possitionsInTwoD.append(coordinate)
         }
 
         let line = MKPolyline(coordinates: possitionsInTwoD, count: possitionsInTwoD.count)
         //posstion map
         //NEED TO CHANGE THE DELTA VALUES LATER
-        setMapRegion(currentLocation: currPosTime.pos)
+        setMapRegion(currentLocation: currPoss)
         mapView.addOverlay(line)
         
     }
@@ -192,9 +188,10 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
             return
         }
         //new activity created to be passed to table view
-        currentActivity = Activity(path: path)
         os_log("activity created unwinding now", type: .debug)
     }
+    
+    
     
     //MARK: private functions
     /*private func timeString(time: Double) -> String {

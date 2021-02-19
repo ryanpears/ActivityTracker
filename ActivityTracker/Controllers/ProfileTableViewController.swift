@@ -20,7 +20,7 @@ class ProfileTableViewController: UITableViewController {
     //MARK: Properties
     private var activities = [Activity]()
     //used in deletion This is a bad idea since my coredata entity is wack and I need to fix
-    private var managedActivities = [ActivityDataModel]()
+    //private var managedActivities = [ActivityDataModel]()
     //needed to use coreData saving and loading
     //private let appDelegate = UIApplication.shared.delegate as! AppDelegate
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -71,7 +71,7 @@ class ProfileTableViewController: UITableViewController {
         
         cell.setPath(path: activity.path)
         cell.setTime(time: activity.time)
-        cell.setPace(pace: activity.avePace)
+        //cell.setPace(pace: activity.avePace)
         cell.setDistance(distance: activity.distance)
         
         return cell
@@ -131,8 +131,14 @@ class ProfileTableViewController: UITableViewController {
     }
     //MARK: Actions
     @IBAction func unwindToProfile(sender: UIStoryboardSegue){
-        if let sourceVC = sender.source as? ActivityViewController,
-           let newActivity = sourceVC.currentActivity{
+        if let sourceVC = sender.source as? ActivityViewController{
+            
+            //create the coreData model to be saved
+            let activityDescription = NSEntityDescription.entity(forEntityName: "Activity", in: context)!
+            let newActivity = Activity(entity: activityDescription, insertInto: self.context)
+            //ALWAYS ALWAYS DO THIS WHEN CREATING A NEW ACTIVITY
+            newActivity.psuedoinit(path: sourceVC.path)
+            
             //add another row
             let newIndexPath = IndexPath(row: activities.count, section: 0)
             //adds first
@@ -141,15 +147,7 @@ class ProfileTableViewController: UITableViewController {
             os_log("new activity added to activity array", type: .debug)
             //reload data this feels a little hacky probably will change.
             tableView.reloadData()
-            //create the coreData model to be saved
-            let wrappedActivityDescription = NSEntityDescription.entity(forEntityName: "ActivityDataModel", in: context)!
-            let wrappedActivity = ActivityDataModel(entity: wrappedActivityDescription, insertInto: self.context)
-            wrappedActivity.activity = newActivity
-            if wrappedActivity.activity == nil {
-                fatalError("activity is nil this is bad")
-            }
-            //did not work
-            //self.context.refresh(wrappedActivity, mergeChanges: true)
+            
             //save the data
             save()
             
@@ -171,14 +169,11 @@ class ProfileTableViewController: UITableViewController {
         do{
             //name change to stop weird coredata stuff
             NSKeyedUnarchiver.setClass(Activity.self, forClassName: "ActivityTracker.activity")
-            let data:[ActivityDataModel] = try context.fetch(ActivityDataModel.fetchRequest())
-            for wrappedActivity in data{
-                if wrappedActivity.activity != nil{
-                    self.activities.insert(wrappedActivity.activity!, at:0)
-                    //inserting the entity to a seperate array.
-                    self.managedActivities.insert(wrappedActivity, at:0)
-                }else{
-                    deleteUnreadableManagedObject(managedObject: wrappedActivity)
+            let data:[Activity] = try context.fetch(Activity.fetchRequest())
+            for activity in data{
+                if activity != nil{
+                    self.activities.insert(activity, at:0)
+                    
                 }
             }
             //reload data
@@ -187,24 +182,22 @@ class ProfileTableViewController: UITableViewController {
             }
         }catch{
             print("error fetching data: \(error)")
+            //possibly change to different type of ACTivity.
         }
     }
     
-    private func deleteUnreadableManagedObject(managedObject: ActivityDataModel){
-        context.delete(managedObject)
-    }
+   
     /**
             deletes the cell at the row given
      */
     private func deleteCell(forCell: Int){
-        context.delete(managedActivities[forCell])
+        context.delete(activities[forCell])
         self.activities.remove(at: forCell)
-        self.managedActivities.remove(at: forCell)
         self.save()
     }
     
     //MARK: private test functions
-    private func loadSampleActivity(){
+   /* private func loadSampleActivity(){
         var path:[PosTime] = []
         path.append(PosTime.init(time:0, possition: CLLocation(latitude:  44.098681, longitude: -114.955616))!)
         path.append(PosTime.init(time: 1840, possition: CLLocation(latitude:  44.0842558, longitude: -114.9731255))!)
@@ -213,6 +206,6 @@ class ProfileTableViewController: UITableViewController {
         path.append(PosTime.init(time: 6000, possition:CLLocation(latitude:  44.0549014, longitude: -115.0131226))!)
         let act1 = Activity.init(path: path)
         activities.append(act1)
-    }
+    }*/
 }
 

@@ -17,13 +17,13 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var startStopButton: UIButton!
     @IBOutlet weak var activitySelectionButton: UIButton!
-    private var selectedActivity: String
+    private var selectedActivity: String = ""
     
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var timeDisp: UILabel!
     
-    @IBOutlet weak var paceLabel: UILabel!
-    @IBOutlet weak var paceDisp: UILabel!
+    @IBOutlet weak var elevationLabel: UILabel!
+    @IBOutlet weak var elevationDisp: UILabel!
     
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var distanceDisp: UILabel!
@@ -94,7 +94,7 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
         
         //Zero out the stats
         timeDisp.text = MeasurementUtils.timeString(time: 0) + " \nmin"
-        paceDisp.text = MeasurementUtils.timeString(time: 0) + " \nkph"
+        elevationDisp.text = String(format: "%.2f", 0) + " \nkm"
         distanceDisp.text = String(format: "%.2f", 0) + " \nkm"
     }
     
@@ -140,7 +140,7 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
             distanceDisp.text = String(format: "%.2f", distance)
             
             let pace: Double = totalActivityTime/distance
-            paceDisp.text = MeasurementUtils.timeString(time: pace)
+            elevationDisp.text = MeasurementUtils.timeString(time: pace)
             
         }else{
             lastSignificatePossition = path[0]

@@ -18,8 +18,8 @@ class ActivityTableViewCell: UITableViewCell, MKMapViewDelegate {
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var distanceDisp: UILabel!
     
-    @IBOutlet weak var avePaceLabel: UILabel!
-    @IBOutlet weak var avePaceDisp: UILabel!
+    @IBOutlet weak var elevationGainLabel: UILabel!
+    @IBOutlet weak var elevationGainDisp: UILabel!
     
     @IBOutlet weak var timeLabel: UILabel!
     
@@ -99,9 +99,8 @@ class ActivityTableViewCell: UITableViewCell, MKMapViewDelegate {
         self.timeDisp.text = MeasurementUtils.timeString(time: time) + " min"
     }
     
-    func setPace(pace: Double){
-        let newPace = MeasurementUtils.millisecondsPerMeterToKilometersPerHour(mspm: pace)
-        self.avePaceDisp.text = MeasurementUtils.timeString(time: newPace) + " kph"
+    func setElevationGain(elevationGain: Double){
+        self.elevationGainDisp.text = String(format: "%.2f m", elevationGain)
     }
     
     func setDistance(distance: Double){

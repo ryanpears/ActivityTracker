@@ -22,7 +22,7 @@
 		03870A9224E1A26D007A4A94 /* ActivityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03870A9124E1A26D007A4A94 /* ActivityTableViewCell.swift */; };
 		03B79DC1259274D8000D85BB /* MeasurementUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B79DC0259274D8000D85BB /* MeasurementUtils.swift */; };
 		03B79DC2259274D8000D85BB /* MeasurementUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B79DC0259274D8000D85BB /* MeasurementUtils.swift */; };
-		03EE4FE725CB6AB700F18A31 /* Activity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03EE4FE625CB6AB700F18A31 /* Activity+CoreDataProperties.swift */; };
+		03F100C125F54035001E27FE /* Activity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F100C025F54035001E27FE /* Activity+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,7 +54,7 @@
 		037D388324E098BD00867082 /* ActivityTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTimer.swift; sourceTree = "<group>"; };
 		03870A9124E1A26D007A4A94 /* ActivityTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTableViewCell.swift; sourceTree = "<group>"; };
 		03B79DC0259274D8000D85BB /* MeasurementUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementUtils.swift; sourceTree = "<group>"; };
-		03EE4FE625CB6AB700F18A31 /* Activity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Activity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		03F100C025F54035001E27FE /* Activity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Activity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,7 +121,7 @@
 			children = (
 				0358459124D1DB430075A2E1 /* ActivityTracker.xcdatamodeld */,
 				030B5DCD25C25AD300C7FC5B /* Activity+CoreDataClass.swift */,
-				03EE4FE625CB6AB700F18A31 /* Activity+CoreDataProperties.swift */,
+				03F100C025F54035001E27FE /* Activity+CoreDataProperties.swift */,
 			);
 			path = CoreDataModels;
 			sourceTree = "<group>";
@@ -276,11 +276,11 @@
 				033ACBAD25F42F3D00AD47DC /* ActivitySelectionPopup.swift in Sources */,
 				03B79DC1259274D8000D85BB /* MeasurementUtils.swift in Sources */,
 				0358458D24D1DB430075A2E1 /* ActivityViewController.swift in Sources */,
-				03EE4FE725CB6AB700F18A31 /* Activity+CoreDataProperties.swift in Sources */,
 				035845AE24D1DE550075A2E1 /* ProfileTableViewController.swift in Sources */,
 				030B5DCF25C25AD300C7FC5B /* Activity+CoreDataClass.swift in Sources */,
 				037D388424E098BD00867082 /* ActivityTimer.swift in Sources */,
 				0358459324D1DB430075A2E1 /* ActivityTracker.xcdatamodeld in Sources */,
+				03F100C125F54035001E27FE /* Activity+CoreDataProperties.swift in Sources */,
 				0358458924D1DB430075A2E1 /* AppDelegate.swift in Sources */,
 				0358458B24D1DB430075A2E1 /* SceneDelegate.swift in Sources */,
 				03870A9224E1A26D007A4A94 /* ActivityTableViewCell.swift in Sources */,

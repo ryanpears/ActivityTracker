@@ -54,13 +54,13 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="uBY-3o-CRt">
                                                     <rect key="frame" x="130.5" y="0.0" width="113" height="56"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ave. Pace" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cnu-xE-0ag">
-                                                            <rect key="frame" x="0.0" y="0.0" width="74" height="20.5"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Elevation Gain" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cnu-xE-0ag">
+                                                            <rect key="frame" x="0.0" y="0.0" width="108" height="20.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ave. Pace N" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sHC-eO-nT7">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Ave. Pace N" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sHC-eO-nT7">
                                                             <rect key="frame" x="0.0" y="35.5" width="90.5" height="20.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
@@ -116,10 +116,10 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="activityTypeLabel" destination="JqQ-co-QBt" id="Go4-XS-4O7"/>
-                                    <outlet property="avePaceDisp" destination="sHC-eO-nT7" id="aeE-bA-Uvs"/>
-                                    <outlet property="avePaceLabel" destination="Cnu-xE-0ag" id="hwW-hM-GeW"/>
                                     <outlet property="distanceDisp" destination="v3F-L2-teR" id="uzf-u3-7lV"/>
                                     <outlet property="distanceLabel" destination="Lva-0v-img" id="tcr-em-Opj"/>
+                                    <outlet property="elevationGainDisp" destination="sHC-eO-nT7" id="aeE-bA-Uvs"/>
+                                    <outlet property="elevationGainLabel" destination="Cnu-xE-0ag" id="hwW-hM-GeW"/>
                                     <outlet property="mapView" destination="zdM-ku-q6b" id="K2Q-oV-Uh2"/>
                                     <outlet property="timeDisp" destination="SHA-hv-JLN" id="83f-TX-qI5"/>
                                     <outlet property="timeLabel" destination="XQH-9C-S1G" id="EFM-6B-1Vd"/>
@@ -182,7 +182,7 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="hgt-mp-CcI">
                                         <rect key="frame" x="135.5" y="0.0" width="83" height="61"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pace" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zyc-Gk-USN">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Elevation Gain" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zyc-Gk-USN">
                                                 <rect key="frame" x="0.0" y="0.0" width="83" height="20.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
@@ -264,9 +264,9 @@
                         <outlet property="activitySelectionButton" destination="JhN-ia-Dd2" id="Rxe-1c-acP"/>
                         <outlet property="distanceDisp" destination="nNb-4Z-StO" id="INc-y6-xp6"/>
                         <outlet property="distanceLabel" destination="KmP-xx-pIA" id="KZh-Oo-R5h"/>
+                        <outlet property="elevationDisp" destination="AKf-Pa-1OG" id="KjH-RJ-Xh7"/>
+                        <outlet property="elevationLabel" destination="zyc-Gk-USN" id="Ayc-Xk-H6u"/>
                         <outlet property="mapView" destination="yjG-mI-rcg" id="YHY-Mq-rHf"/>
-                        <outlet property="paceDisp" destination="AKf-Pa-1OG" id="KjH-RJ-Xh7"/>
-                        <outlet property="paceLabel" destination="zyc-Gk-USN" id="Ayc-Xk-H6u"/>
                         <outlet property="saveButton" destination="U2n-TG-mkT" id="6iY-AK-xB6"/>
                         <outlet property="startStopButton" destination="15q-aP-axg" id="zTx-z2-93T"/>
                         <outlet property="timeDisp" destination="mxr-li-aRq" id="dKc-Fn-Ufi"/>

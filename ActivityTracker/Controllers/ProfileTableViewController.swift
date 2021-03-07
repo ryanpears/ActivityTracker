@@ -71,7 +71,7 @@ class ProfileTableViewController: UITableViewController {
         
         cell.setPath(path: activity.path)
         cell.setTime(time: activity.time)
-        //cell.setPace(pace: activity.avePace)
+        cell.setElevationGain(elevationGain: activity.elevationGain ?? 0)
         cell.setDistance(distance: activity.distance)
         
         return cell

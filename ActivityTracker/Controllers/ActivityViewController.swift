@@ -17,6 +17,7 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var startStopButton: UIButton!
     @IBOutlet weak var activitySelectionButton: UIButton!
+    private var selectedActivity: String
     
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var timeDisp: UILabel!
@@ -87,6 +88,10 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
         })
         //disable save button
         saveButton.isEnabled = false
+        
+        activitySelectionButton.setTitle("Other", for: .normal)
+        let selectedActivity = activitySelectionButton?.currentTitle ?? "Other"
+        
         //Zero out the stats
         timeDisp.text = MeasurementUtils.timeString(time: 0) + " \nmin"
         paceDisp.text = MeasurementUtils.timeString(time: 0) + " \nkph"
@@ -206,6 +211,10 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
             os_log("activity created unwinding now", type: .debug)
         }
         
+    }
+    
+    @IBAction func unwindToActivity(_ sender: UIStoryboardSegue){
+        //nothing in here really yet
     }
     
     

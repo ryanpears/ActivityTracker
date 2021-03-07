@@ -6,7 +6,13 @@
         <attribute name="path" attributeType="Transformable" customClassName="[CLLocation]"/>
         <attribute name="time" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
     </entity>
+    <entity name="Run" representedClassName="Run" parentEntity="Activity" syncable="YES">
+        <attribute name="averagePace" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="maxElevation" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="minElevation" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+    </entity>
     <elements>
         <element name="Activity" positionX="-63" positionY="-9" width="128" height="103"/>
+        <element name="Run" positionX="-63" positionY="18" width="128" height="88"/>
     </elements>
 </model>

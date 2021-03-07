@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		030B5DCF25C25AD300C7FC5B /* Activity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 030B5DCD25C25AD300C7FC5B /* Activity+CoreDataClass.swift */; };
+		033ACBAD25F42F3D00AD47DC /* ActivitySelectionPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033ACBAC25F42F3D00AD47DC /* ActivitySelectionPopup.swift */; };
 		0358458924D1DB430075A2E1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0358458824D1DB430075A2E1 /* AppDelegate.swift */; };
 		0358458B24D1DB430075A2E1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0358458A24D1DB430075A2E1 /* SceneDelegate.swift */; };
 		0358458D24D1DB430075A2E1 /* ActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0358458C24D1DB430075A2E1 /* ActivityViewController.swift */; };
@@ -36,6 +37,7 @@
 
 /* Begin PBXFileReference section */
 		030B5DCD25C25AD300C7FC5B /* Activity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Activity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		033ACBAC25F42F3D00AD47DC /* ActivitySelectionPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivitySelectionPopup.swift; sourceTree = "<group>"; };
 		0358458524D1DB430075A2E1 /* ActivityTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ActivityTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0358458824D1DB430075A2E1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0358458A24D1DB430075A2E1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 		038E3F3325DF6C7C006D1824 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				033ACBAC25F42F3D00AD47DC /* ActivitySelectionPopup.swift */,
 				0358458C24D1DB430075A2E1 /* ActivityViewController.swift */,
 				03870A9124E1A26D007A4A94 /* ActivityTableViewCell.swift */,
 				035845AD24D1DE550075A2E1 /* ProfileTableViewController.swift */,
@@ -270,6 +273,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				033ACBAD25F42F3D00AD47DC /* ActivitySelectionPopup.swift in Sources */,
 				03B79DC1259274D8000D85BB /* MeasurementUtils.swift in Sources */,
 				0358458D24D1DB430075A2E1 /* ActivityViewController.swift in Sources */,
 				03EE4FE725CB6AB700F18A31 /* Activity+CoreDataProperties.swift in Sources */,

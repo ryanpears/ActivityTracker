@@ -11,11 +11,12 @@ import MapKit
 import CoreLocation
 import os.log
 
-class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
+class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate, UIPopoverPresentationControllerDelegate {
 
     //MARK: Properties
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var startStopButton: UIButton!
+    @IBOutlet weak var activitySelectionButton: UIButton!
     
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var timeDisp: UILabel!
@@ -46,6 +47,9 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // maybe need to assign a UIPopoverdelagate
+        
         //I think I should instantiate a new activity class here
         //setting up location manager
         locationManager = CLLocationManager()
@@ -179,16 +183,29 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
         }
     }
     
-   
+    @IBAction func SelectActivityPressed(_ sender: UIButton) {
+        self.performSegue(withIdentifier: "SelectActivitySegue", sender: self)
+    }
+    
     //MARK: navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
-        guard let button = sender as? UIBarButtonItem, button === saveButton else{
-            os_log("save button wasn't pressed", type: .debug)
+        //for popover
+        if segue.identifier == "SelectActivitySegue"{
+            let dest = segue.destination
+            if let selectionPopup = dest.popoverPresentationController{
+                selectionPopup.delegate = self
+            }
             return
+        }else{//TODO: make this per segue
+            guard let button = sender as? UIBarButtonItem, button === saveButton else{
+                os_log("save button wasn't pressed", type: .debug)
+                return
+            }
+            //new activity created to be passed to table view
+            os_log("activity created unwinding now", type: .debug)
         }
-        //new activity created to be passed to table view
-        os_log("activity created unwinding now", type: .debug)
+        
     }
     
     

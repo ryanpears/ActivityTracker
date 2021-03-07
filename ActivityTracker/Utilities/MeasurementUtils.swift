@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import CoreLocation
+import os.log
 
 //class used for conversions between measurements
 class MeasurementUtils{
@@ -34,6 +36,26 @@ class MeasurementUtils{
     
     static func millisecondsPerMeterToKilometersPerHour(mspm: Double) -> Double{
         return mspm * 3600
+    }
+    /*
+     returns tuple where the first value is the minimum elevation and second is maximum elevation
+     */
+    static func calcMinMaxElevation(path: [CLLocation]?) -> (min: Double, max: Double){
+        //checks for a nonempty path
+        if path == nil || path?.count == 0{
+            os_log("not enough points", type: .debug)
+            //maybe make nil
+            return (min: 0, max: 0)
+        }
+        var currentMin = path![0].altitude
+        var currentMax = path![0].altitude
+        
+        for i in 0..<path!.count{
+            let nextElevation = path![i].altitude
+            currentMin = min(currentMin, nextElevation)
+            currentMax = max(currentMax, nextElevation)
+        }
+        return (min: currentMin, max: currentMax)
     }
     
     //MARK: imperial

@@ -51,6 +51,7 @@ class ActivitySelectionPopup: UIViewController, UIPickerViewDelegate, UIPickerVi
     override func prepare(for segue: UIStoryboardSegue, sender: Any?){
         if let dest = segue.destination as? ActivityViewController{
             dest.activitySelectionButton.setTitle(selectedActivity, for: .normal)
+            dest.selectedActivity = self.selectedActivity
         }
     }
 }

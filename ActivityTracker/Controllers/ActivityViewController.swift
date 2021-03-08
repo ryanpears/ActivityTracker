@@ -17,7 +17,7 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var startStopButton: UIButton!
     @IBOutlet weak var activitySelectionButton: UIButton!
-    private var selectedActivity: String = ""
+    var selectedActivity: String = ""
     
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var timeDisp: UILabel!

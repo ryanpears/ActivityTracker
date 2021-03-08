@@ -17,7 +17,8 @@ public class Run: Activity {
     /**
             calculates the minimum and maximum elevation for this run
      */
-    public func psuedoinit(){
+    override func psuedoinit(path: [CLLocation]){
+        super.psuedoinit(path: path)
         let minMax = MeasurementUtils.calcMinMaxElevation(path: path)
         self.minElevation = minMax.min
         self.maxElevation = minMax.max

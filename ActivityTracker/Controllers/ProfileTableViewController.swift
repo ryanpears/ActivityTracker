@@ -133,12 +133,12 @@ class ProfileTableViewController: UITableViewController {
     @IBAction func unwindToProfile(sender: UIStoryboardSegue){
         if let sourceVC = sender.source as? ActivityViewController{
             
-            //create the coreData model to be saved
-            let activityDescription = NSEntityDescription.entity(forEntityName: "Activity", in: context)!
-            let newActivity = Activity(entity: activityDescription, insertInto: self.context)
-            //ALWAYS ALWAYS DO THIS WHEN CREATING A NEW ACTIVITY
-            newActivity.psuedoinit(path: sourceVC.path)
-            
+//            //create the coreData model to be saved
+//            let activityDescription = NSEntityDescription.entity(forEntityName: "Activity", in: context)!
+//            let newActivity = Activity(entity: activityDescription, insertInto: self.context)
+//            //ALWAYS ALWAYS DO THIS WHEN CREATING A NEW ACTIVITY
+//            newActivity.psuedoinit(path: sourceVC.path)
+            let newActivity = createNewActivity(path: sourceVC.path, activityType: sourceVC.selectedActivity)
             //add another row
             let newIndexPath = IndexPath(row: activities.count, section: 0)
             //adds first
@@ -173,7 +173,11 @@ class ProfileTableViewController: UITableViewController {
             for activity in data{
                 if activity != nil{
                     self.activities.insert(activity, at:0)
-                    
+                    if type(of: activity) == Run.self {
+                        os_log("GREAT A RUN IS HERE")
+                        let run = activity as! Run
+                        print("average pace is : ",  run.averagePace)
+                    }
                 }
             }
             //reload data
@@ -197,6 +201,29 @@ class ProfileTableViewController: UITableViewController {
     }
     
     //MARK: private test functions
+    private func createNewActivity(path: [CLLocation], activityType: String) -> Activity{
+        
+        let newActivity: Activity
+        //TODO stop this stringy shit
+        switch activityType{
+        case "Run":
+            //create the coreData model to be saved
+            let activityDescription = NSEntityDescription.entity(forEntityName: "Run", in: self.context)!
+            newActivity = Activity(entity: activityDescription, insertInto: self.context)
+            //ALWAYS ALWAYS DO THIS WHEN CREATING A NEW ACTIVITY
+            newActivity.psuedoinit(path: path)
+        default:
+            //other
+            //create the coreData model to be saved
+            let activityDescription = NSEntityDescription.entity(forEntityName: "Activity", in: self.context)!
+            newActivity = Activity(entity: activityDescription, insertInto: self.context)
+            //ALWAYS ALWAYS DO THIS WHEN CREATING A NEW ACTIVITY
+            newActivity.psuedoinit(path: path)
+        }
+        
+        return newActivity
+    }
+    
    /* private func loadSampleActivity(){
         var path:[PosTime] = []
         path.append(PosTime.init(time:0, possition: CLLocation(latitude:  44.098681, longitude: -114.955616))!)

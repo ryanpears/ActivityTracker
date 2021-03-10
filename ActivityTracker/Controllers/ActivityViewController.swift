@@ -119,21 +119,24 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
             setMapRegion(currentLocation: locations[locations.count-1])
             return
         }
-        //checks the authorization
-        //THIS MIGHT NOT BE NESSICARY SINCE WE ARE ALREADY GETTING A LOCATION
+        
         //appends a possition to the path
-        //let time = totalActivityTime
         let currPoss = locations[locations.count-1]
         path.append(currPoss)
         os_log("appending current location", type: .debug)
         
         //updates the distance and pace
         //MIGHT MAKE A FUNCTION TO UPDATE THE CORRECT STATS
+        var possitionsIn2D: [CLLocationCoordinate2D] = [CLLocationCoordinate2D]()
+        
         if path.count > 1{
             //hopefully forceful unwrap won't cause problems.
             let nextDistance = calcDistance(point1: lastSignificatePossition!,
                                             point2: path[path.count-1])
             if nextDistance != 0{
+                possitionsIn2D.append(lastSignificatePossition!.coordinate)
+                possitionsIn2D.append(currPoss.coordinate)
+                
                 distance += nextDistance
                 lastSignificatePossition = path[path.count-1]
             }
@@ -152,17 +155,20 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
         //create MKPolyline from path
         //MayAlso make this a different func
         //NOTE I THINK THIS CAUSES THE SLOW DOWN IN THE APP MAYBE MAKE ASYNC
-        var possitionsInTwoD = [CLLocationCoordinate2D]()
-        for case let point in path{//loops over non-nil(kinda cool)
-            let coordinate = CLLocationCoordinate2D(latitude: point.coordinate.latitude, longitude: point.coordinate.longitude)
-            possitionsInTwoD.append(coordinate)
+        //var possitionsInTwoD: [CLLocationCoordinate2D] = [lastSignificatePossition?.coordinate, ]
+        
+//        for case let point in path{//loops over non-nil(kinda cool)
+//            let coordinate = CLLocationCoordinate2D(latitude: point.coordinate.latitude, longitude: point.coordinate.longitude)
+//            possitionsInTwoD.append(coordinate)
+//        }
+        if !possitionsIn2D.isEmpty{
+            let line = MKPolyline(coordinates: possitionsIn2D, count: possitionsIn2D.count)
+            //posstion map
+            //NEED TO CHANGE THE DELTA VALUES LATER
+            setMapRegion(currentLocation: currPoss)
+            mapView.addOverlay(line)
         }
-
-        let line = MKPolyline(coordinates: possitionsInTwoD, count: possitionsInTwoD.count)
-        //posstion map
-        //NEED TO CHANGE THE DELTA VALUES LATER
-        setMapRegion(currentLocation: currPoss)
-        mapView.addOverlay(line)
+        
         
     }
     

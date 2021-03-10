@@ -92,7 +92,7 @@ class ActivityTableViewCell: UITableViewCell, MKMapViewDelegate {
     func setCellValues(activity: Activity){
         setPath(path: activity.path)
         setTime(time: activity.time)
-        setElevationGain(elevationGain: activity.elevationGain ?? 0)
+        setElevationGain(elevationGain: activity.elevationGain)
         setDistance(distance: activity.distance)
         setTitle(activity: activity)
     }

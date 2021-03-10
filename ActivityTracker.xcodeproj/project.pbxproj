@@ -28,6 +28,8 @@
 		03F100CF25F69A4F001E27FE /* StringStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F100CE25F69A4F001E27FE /* StringStructs.swift */; };
 		03F100D825F84641001E27FE /* Bike+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F100D625F84641001E27FE /* Bike+CoreDataClass.swift */; };
 		03F100D925F84641001E27FE /* Bike+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F100D725F84641001E27FE /* Bike+CoreDataProperties.swift */; };
+		03F100DE25F86101001E27FE /* Hike+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F100DC25F86101001E27FE /* Hike+CoreDataClass.swift */; };
+		03F100DF25F86101001E27FE /* Hike+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F100DD25F86101001E27FE /* Hike+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +67,8 @@
 		03F100CE25F69A4F001E27FE /* StringStructs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringStructs.swift; sourceTree = "<group>"; };
 		03F100D625F84641001E27FE /* Bike+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bike+CoreDataClass.swift"; sourceTree = "<group>"; };
 		03F100D725F84641001E27FE /* Bike+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bike+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		03F100DC25F86101001E27FE /* Hike+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Hike+CoreDataClass.swift"; sourceTree = "<group>"; };
+		03F100DD25F86101001E27FE /* Hike+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Hike+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +138,8 @@
 				03F100C025F54035001E27FE /* Activity+CoreDataProperties.swift */,
 				03F100D625F84641001E27FE /* Bike+CoreDataClass.swift */,
 				03F100D725F84641001E27FE /* Bike+CoreDataProperties.swift */,
+				03F100DC25F86101001E27FE /* Hike+CoreDataClass.swift */,
+				03F100DD25F86101001E27FE /* Hike+CoreDataProperties.swift */,
 				03F100C625F567AE001E27FE /* Run+CoreDataClass.swift */,
 				03F100C725F567AE001E27FE /* Run+CoreDataProperties.swift */,
 			);
@@ -288,6 +294,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03F100DF25F86101001E27FE /* Hike+CoreDataProperties.swift in Sources */,
 				033ACBAD25F42F3D00AD47DC /* ActivitySelectionPopup.swift in Sources */,
 				03B79DC1259274D8000D85BB /* MeasurementUtils.swift in Sources */,
 				0358458D24D1DB430075A2E1 /* ActivityViewController.swift in Sources */,
@@ -298,6 +305,7 @@
 				03F100C125F54035001E27FE /* Activity+CoreDataProperties.swift in Sources */,
 				0358458924D1DB430075A2E1 /* AppDelegate.swift in Sources */,
 				03F100CF25F69A4F001E27FE /* StringStructs.swift in Sources */,
+				03F100DE25F86101001E27FE /* Hike+CoreDataClass.swift in Sources */,
 				0358458B24D1DB430075A2E1 /* SceneDelegate.swift in Sources */,
 				03F100D825F84641001E27FE /* Bike+CoreDataClass.swift in Sources */,
 				03870A9224E1A26D007A4A94 /* ActivityTableViewCell.swift in Sources */,

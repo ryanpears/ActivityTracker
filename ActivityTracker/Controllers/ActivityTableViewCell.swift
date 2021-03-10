@@ -18,8 +18,8 @@ class ActivityTableViewCell: UITableViewCell, MKMapViewDelegate {
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var distanceDisp: UILabel!
     
-    @IBOutlet weak var avePaceLabel: UILabel!
-    @IBOutlet weak var avePaceDisp: UILabel!
+    @IBOutlet weak var elevationGainLabel: UILabel!
+    @IBOutlet weak var elevationGainDisp: UILabel!
     
     @IBOutlet weak var timeLabel: UILabel!
     
@@ -88,25 +88,50 @@ class ActivityTableViewCell: UITableViewCell, MKMapViewDelegate {
     }
     
     //MARK: setters
-    func setPath(path: [CLLocation]){
+    
+    func setCellValues(activity: Activity){
+        setPath(path: activity.path)
+        setTime(time: activity.time)
+        setElevationGain(elevationGain: activity.elevationGain)
+        setDistance(distance: activity.distance)
+        setTitle(activity: activity)
+    }
+    
+    private func setPath(path: [CLLocation]){
         self.path = path
         //can only do this after given a path
         formatMapForCell()
     }
     
     //TODO add a meteric and imperial version 
-    func setTime(time: Double){
+    private func setTime(time: Double){
         self.timeDisp.text = MeasurementUtils.timeString(time: time) + " min"
     }
     
-    func setPace(pace: Double){
-        let newPace = MeasurementUtils.millisecondsPerMeterToKilometersPerHour(mspm: pace)
-        self.avePaceDisp.text = MeasurementUtils.timeString(time: newPace) + " kph"
+    private func setElevationGain(elevationGain: Double){
+        self.elevationGainDisp.text = String(format: "%.2f m", elevationGain)
     }
     
-    func setDistance(distance: Double){
+    private func setDistance(distance: Double){
         let distanceInKm = MeasurementUtils.metersToKilometers(m: distance)
         self.distanceDisp.text = String(format: "%.2f km", distanceInKm)
+    }
+    
+    private func setTitle(activity: Activity){
+        //switch on type of activity to set title
+        switch activity {
+        case (is Run):
+            activityTypeLabel.text = StringStructs.ActivityTypes.run
+            
+        case (is Bike):
+            activityTypeLabel.text = StringStructs.ActivityTypes.bike
+            
+        case (is Hike):
+            activityTypeLabel.text = StringStructs.ActivityTypes.hike
+            
+        default:
+            activityTypeLabel.text = StringStructs.ActivityTypes.other
+        }
     }
     
 }

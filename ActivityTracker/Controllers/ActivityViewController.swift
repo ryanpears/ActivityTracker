@@ -11,17 +11,20 @@ import MapKit
 import CoreLocation
 import os.log
 
-class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
+class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate, UIPopoverPresentationControllerDelegate {
 
     //MARK: Properties
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var startStopButton: UIButton!
+    @IBOutlet weak var activitySelectionButton: UIButton!
+    var selectedActivity: String = StringStructs.ActivityTypes.other
+    
     
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var timeDisp: UILabel!
     
-    @IBOutlet weak var paceLabel: UILabel!
-    @IBOutlet weak var paceDisp: UILabel!
+    @IBOutlet weak var averagePaceLabel: UILabel!
+    @IBOutlet weak var averagePaceDisp: UILabel!
     
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var distanceDisp: UILabel!
@@ -46,6 +49,9 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // maybe need to assign a UIPopoverdelagate
+        
         //I think I should instantiate a new activity class here
         //setting up location manager
         locationManager = CLLocationManager()
@@ -83,9 +89,13 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
         })
         //disable save button
         saveButton.isEnabled = false
+        
+        activitySelectionButton.setTitle(StringStructs.ActivityTypes.other, for: .normal)
+        
+        
         //Zero out the stats
         timeDisp.text = MeasurementUtils.timeString(time: 0) + " \nmin"
-        paceDisp.text = MeasurementUtils.timeString(time: 0) + " \nkph"
+        averagePaceDisp.text = String(format: "%.2f", 0) + " \nkm"
         distanceDisp.text = String(format: "%.2f", 0) + " \nkm"
     }
     
@@ -109,21 +119,24 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
             setMapRegion(currentLocation: locations[locations.count-1])
             return
         }
-        //checks the authorization
-        //THIS MIGHT NOT BE NESSICARY SINCE WE ARE ALREADY GETTING A LOCATION
+        
         //appends a possition to the path
-        //let time = totalActivityTime
         let currPoss = locations[locations.count-1]
         path.append(currPoss)
         os_log("appending current location", type: .debug)
         
         //updates the distance and pace
         //MIGHT MAKE A FUNCTION TO UPDATE THE CORRECT STATS
+        var possitionsIn2D: [CLLocationCoordinate2D] = [CLLocationCoordinate2D]()
+        
         if path.count > 1{
             //hopefully forceful unwrap won't cause problems.
             let nextDistance = calcDistance(point1: lastSignificatePossition!,
                                             point2: path[path.count-1])
             if nextDistance != 0{
+                possitionsIn2D.append(lastSignificatePossition!.coordinate)
+                possitionsIn2D.append(currPoss.coordinate)
+                
                 distance += nextDistance
                 lastSignificatePossition = path[path.count-1]
             }
@@ -131,7 +144,7 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
             distanceDisp.text = String(format: "%.2f", distance)
             
             let pace: Double = totalActivityTime/distance
-            paceDisp.text = MeasurementUtils.timeString(time: pace)
+            averagePaceDisp.text = MeasurementUtils.timeString(time: pace)
             
         }else{
             lastSignificatePossition = path[0]
@@ -141,17 +154,21 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
         
         //create MKPolyline from path
         //MayAlso make this a different func
-        var possitionsInTwoD = [CLLocationCoordinate2D]()
-        for case let point in path{//loops over non-nil(kinda cool)
-            let coordinate = CLLocationCoordinate2D(latitude: point.coordinate.latitude, longitude: point.coordinate.longitude)
-            possitionsInTwoD.append(coordinate)
+        //NOTE I THINK THIS CAUSES THE SLOW DOWN IN THE APP MAYBE MAKE ASYNC
+        //var possitionsInTwoD: [CLLocationCoordinate2D] = [lastSignificatePossition?.coordinate, ]
+        
+//        for case let point in path{//loops over non-nil(kinda cool)
+//            let coordinate = CLLocationCoordinate2D(latitude: point.coordinate.latitude, longitude: point.coordinate.longitude)
+//            possitionsInTwoD.append(coordinate)
+//        }
+        if !possitionsIn2D.isEmpty{
+            let line = MKPolyline(coordinates: possitionsIn2D, count: possitionsIn2D.count)
+            //posstion map
+            //NEED TO CHANGE THE DELTA VALUES LATER
+            setMapRegion(currentLocation: currPoss)
+            mapView.addOverlay(line)
         }
-
-        let line = MKPolyline(coordinates: possitionsInTwoD, count: possitionsInTwoD.count)
-        //posstion map
-        //NEED TO CHANGE THE DELTA VALUES LATER
-        setMapRegion(currentLocation: currPoss)
-        mapView.addOverlay(line)
+        
         
     }
     
@@ -179,16 +196,34 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
         }
     }
     
-   
+    @IBAction func SelectActivityPressed(_ sender: UIButton) {
+        //self.performSegue(withIdentifier: "SelectActivitySegue", sender: self)
+        self.performSegue(withIdentifier: StringStructs.Segues.SelectActivitySegue, sender: self)
+    }
+    
     //MARK: navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
-        guard let button = sender as? UIBarButtonItem, button === saveButton else{
-            os_log("save button wasn't pressed", type: .debug)
+        //for popover
+        if segue.identifier == StringStructs.Segues.SelectActivitySegue{
+            let dest = segue.destination
+            if let selectionPopup = dest.popoverPresentationController{
+                selectionPopup.delegate = self
+            }
             return
+        }else if segue.identifier == StringStructs.Segues.addActivity{//TODO: make this per segue
+            guard let button = sender as? UIBarButtonItem, button === saveButton else{
+                os_log("save button wasn't pressed", type: .debug)
+                return
+            }
+            //new activity created to be passed to table view
+            os_log("activity created unwinding now", type: .debug)
         }
-        //new activity created to be passed to table view
-        os_log("activity created unwinding now", type: .debug)
+        
+    }
+    
+    @IBAction func unwindToActivity(_ sender: UIStoryboardSegue){
+        //nothing in here really yet
     }
     
     

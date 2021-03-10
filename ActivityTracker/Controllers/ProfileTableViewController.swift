@@ -69,10 +69,7 @@ class ProfileTableViewController: UITableViewController {
         
         let activity = activities[indexPath.row]
         
-        cell.setPath(path: activity.path)
-        cell.setTime(time: activity.time)
-        //cell.setPace(pace: activity.avePace)
-        cell.setDistance(distance: activity.distance)
+        cell.setCellValues(activity: activity)
         
         return cell
     }
@@ -120,7 +117,7 @@ class ProfileTableViewController: UITableViewController {
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        if segue.identifier == "addActivity"{
+        if segue.identifier == StringStructs.Segues.addActivity{
             //DO NOTHING FOR NOW may add stuff later.
         }else if segue.identifier == "showActivity"{
             //TODO: add showActivity view/controller.
@@ -133,12 +130,7 @@ class ProfileTableViewController: UITableViewController {
     @IBAction func unwindToProfile(sender: UIStoryboardSegue){
         if let sourceVC = sender.source as? ActivityViewController{
             
-            //create the coreData model to be saved
-            let activityDescription = NSEntityDescription.entity(forEntityName: "Activity", in: context)!
-            let newActivity = Activity(entity: activityDescription, insertInto: self.context)
-            //ALWAYS ALWAYS DO THIS WHEN CREATING A NEW ACTIVITY
-            newActivity.psuedoinit(path: sourceVC.path)
-            
+            let newActivity = createNewActivity(path: sourceVC.path, activityType: sourceVC.selectedActivity)
             //add another row
             let newIndexPath = IndexPath(row: activities.count, section: 0)
             //adds first
@@ -173,7 +165,6 @@ class ProfileTableViewController: UITableViewController {
             for activity in data{
                 if activity != nil{
                     self.activities.insert(activity, at:0)
-                    
                 }
             }
             //reload data
@@ -197,6 +188,42 @@ class ProfileTableViewController: UITableViewController {
     }
     
     //MARK: private test functions
+    private func createNewActivity(path: [CLLocation], activityType: String) -> Activity{
+        
+        let newActivity: Activity
+        //TODO stop this stringy shit
+        switch activityType{
+        case StringStructs.ActivityTypes.run:
+            //create the coreData model to be saved
+            let activityDescription = NSEntityDescription.entity(forEntityName: StringStructs.ActivityTypes.run, in: self.context)!
+            newActivity = Activity(entity: activityDescription, insertInto: self.context)
+            //ALWAYS ALWAYS DO THIS WHEN CREATING A NEW ACTIVITY
+            newActivity.psuedoinit(path: path)
+            
+        case StringStructs.ActivityTypes.bike:
+            //create coreData model to be saved
+            let activityDescription = NSEntityDescription.entity(forEntityName: StringStructs.ActivityTypes.bike, in: self.context)!
+            newActivity = Activity(entity: activityDescription, insertInto: self.context)
+            newActivity.psuedoinit(path: path)
+            
+        case StringStructs.ActivityTypes.hike:
+            //create coreData model to be saved
+            let activityDescription = NSEntityDescription.entity(forEntityName: StringStructs.ActivityTypes.hike, in: self.context)!
+            newActivity = Activity(entity: activityDescription, insertInto: self.context)
+            newActivity.psuedoinit(path: path)
+            
+        default:
+            //other
+            //create the coreData model to be saved
+            let activityDescription = NSEntityDescription.entity(forEntityName: "Activity", in: self.context)!
+            newActivity = Activity(entity: activityDescription, insertInto: self.context)
+            //ALWAYS ALWAYS DO THIS WHEN CREATING A NEW ACTIVITY
+            newActivity.psuedoinit(path: path)
+        }
+        
+        return newActivity
+    }
+    
    /* private func loadSampleActivity(){
         var path:[PosTime] = []
         path.append(PosTime.init(time:0, possition: CLLocation(latitude:  44.098681, longitude: -114.955616))!)

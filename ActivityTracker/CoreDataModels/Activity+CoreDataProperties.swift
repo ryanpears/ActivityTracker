@@ -2,7 +2,7 @@
 //  Activity+CoreDataProperties.swift
 //  ActivityTracker
 //
-//  Created by Ryan Pearson on 2/3/21.
+//  Created by Ryan Pearson on 3/7/21.
 //  Copyright © 2021 Ryan Pearson. All rights reserved.
 //
 //
@@ -20,6 +20,7 @@ extension Activity {
     @NSManaged public var distance: Double
     @NSManaged public var path: [CLLocation]
     @NSManaged public var time: Double
+    @NSManaged public var elevationGain: Double
 
 }
 

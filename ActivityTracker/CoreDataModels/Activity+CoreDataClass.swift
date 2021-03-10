@@ -27,7 +27,7 @@ public class Activity: NSManagedObject {
         self.path = path
         self.calcDistance()
         self.calcTime()
-        
+        self.calcElevationGain()
     }
     
     
@@ -64,6 +64,36 @@ public class Activity: NSManagedObject {
         //really hope this is ok
         //calculates time between last recorded possitions
         self.time = path[path.count-1].timestamp.timeIntervalSince(path[0].timestamp)
+        print("THE TIME IS :", self.time)
+    }
+    
+    private func calcElevationGain(){
+        if path.count < 2 {
+            os_log("not enough points in path to calculate elevation", type: .debug)
+            self.elevationGain = 0.0
+            return
+        }
+        //possibly move to measurementUtils
+        var elevation:Double = 0
+        var prevLocation: CLLocation = path[0]
+        var prevElevation = prevLocation.altitude
+        
+        for i in 1..<path.count{
+            let nextLocation:CLLocation = path[i]
+            let nextElevation = nextLocation.altitude
+            let calcElevation = nextElevation - prevElevation
+            //only add if the elevation is greater then vertical accuraty and possitive
+            if calcElevation > 0 && calcElevation > nextLocation.verticalAccuracy{
+                elevation += calcElevation
+                prevLocation = nextLocation
+                prevElevation = nextElevation
+            }else if calcElevation < 0 && abs(calcElevation) > nextLocation.verticalAccuracy{
+                //if the elevation is dropping update starting location not gain
+                prevLocation = nextLocation
+                prevElevation = nextElevation
+            }
+        }
+        self.elevationGain = elevation
     }
     
 }

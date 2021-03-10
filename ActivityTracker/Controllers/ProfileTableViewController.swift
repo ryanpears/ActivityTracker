@@ -69,10 +69,7 @@ class ProfileTableViewController: UITableViewController {
         
         let activity = activities[indexPath.row]
         
-        cell.setPath(path: activity.path)
-        cell.setTime(time: activity.time)
-        cell.setElevationGain(elevationGain: activity.elevationGain ?? 0)
-        cell.setDistance(distance: activity.distance)
+        cell.setCellValues(activity: activity)
         
         return cell
     }
@@ -202,6 +199,19 @@ class ProfileTableViewController: UITableViewController {
             newActivity = Activity(entity: activityDescription, insertInto: self.context)
             //ALWAYS ALWAYS DO THIS WHEN CREATING A NEW ACTIVITY
             newActivity.psuedoinit(path: path)
+            
+        case StringStructs.ActivityTypes.bike:
+            //create coreData model to be saved
+            let activityDescription = NSEntityDescription.entity(forEntityName: StringStructs.ActivityTypes.bike, in: self.context)!
+            newActivity = Activity(entity: activityDescription, insertInto: self.context)
+            newActivity.psuedoinit(path: path)
+            
+        case StringStructs.ActivityTypes.hike:
+            //create coreData model to be saved
+            let activityDescription = NSEntityDescription.entity(forEntityName: StringStructs.ActivityTypes.hike, in: self.context)!
+            newActivity = Activity(entity: activityDescription, insertInto: self.context)
+            newActivity.psuedoinit(path: path)
+            
         default:
             //other
             //create the coreData model to be saved

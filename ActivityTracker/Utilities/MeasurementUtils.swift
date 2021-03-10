@@ -37,6 +37,11 @@ class MeasurementUtils{
     static func millisecondsPerMeterToKilometersPerHour(mspm: Double) -> Double{
         return mspm * 3600
     }
+    
+    static func metersPerSecondToKilometersPerHour(mps: Double) ->Double{
+        return mps * 3.6
+    }
+    
     /*
      returns tuple where the first value is the minimum elevation and second is maximum elevation
      */

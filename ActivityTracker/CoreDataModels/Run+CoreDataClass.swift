@@ -15,7 +15,7 @@ import os.log
 public class Run: Activity {
 
     /**
-            calculates the minimum and maximum elevation for this run
+            initalizes all the attributes
      */
     override func psuedoinit(path: [CLLocation]){
         super.psuedoinit(path: path)

@@ -30,8 +30,8 @@ public class Run: Activity {
      calculate the average pace in seconds/km
      */
     private func calcAveragePace(){
-        let seconds = MeasurementUtils.millisecondsToSeconds(ms: self.time)
+//        let seconds = MeasurementUtils.millisecondsToSeconds(ms: self.time)
         let km = MeasurementUtils.metersToKilometers(m: self.distance)
-        self.averagePace = seconds/km
+        self.averagePace = self.time/km
     }
 }

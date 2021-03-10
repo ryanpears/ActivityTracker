@@ -120,7 +120,7 @@ class ProfileTableViewController: UITableViewController {
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        if segue.identifier == "addActivity"{
+        if segue.identifier == StringStructs.Segues.addActivity{
             //DO NOTHING FOR NOW may add stuff later.
         }else if segue.identifier == "showActivity"{
             //TODO: add showActivity view/controller.
@@ -133,11 +133,6 @@ class ProfileTableViewController: UITableViewController {
     @IBAction func unwindToProfile(sender: UIStoryboardSegue){
         if let sourceVC = sender.source as? ActivityViewController{
             
-//            //create the coreData model to be saved
-//            let activityDescription = NSEntityDescription.entity(forEntityName: "Activity", in: context)!
-//            let newActivity = Activity(entity: activityDescription, insertInto: self.context)
-//            //ALWAYS ALWAYS DO THIS WHEN CREATING A NEW ACTIVITY
-//            newActivity.psuedoinit(path: sourceVC.path)
             let newActivity = createNewActivity(path: sourceVC.path, activityType: sourceVC.selectedActivity)
             //add another row
             let newIndexPath = IndexPath(row: activities.count, section: 0)
@@ -173,11 +168,6 @@ class ProfileTableViewController: UITableViewController {
             for activity in data{
                 if activity != nil{
                     self.activities.insert(activity, at:0)
-                    if type(of: activity) == Run.self {
-                        os_log("GREAT A RUN IS HERE")
-                        let run = activity as! Run
-                        print("average pace is : ",  run.averagePace)
-                    }
                 }
             }
             //reload data
@@ -206,9 +196,9 @@ class ProfileTableViewController: UITableViewController {
         let newActivity: Activity
         //TODO stop this stringy shit
         switch activityType{
-        case "Run":
+        case StringStructs.ActivityTypes.run:
             //create the coreData model to be saved
-            let activityDescription = NSEntityDescription.entity(forEntityName: "Run", in: self.context)!
+            let activityDescription = NSEntityDescription.entity(forEntityName: StringStructs.ActivityTypes.run, in: self.context)!
             newActivity = Activity(entity: activityDescription, insertInto: self.context)
             //ALWAYS ALWAYS DO THIS WHEN CREATING A NEW ACTIVITY
             newActivity.psuedoinit(path: path)

@@ -26,9 +26,9 @@ class MeasurementUtils{
     }
     
     //MARK: metric
-    static func millisecondsToSeconds(ms: Double) -> Double {
-        return ms/1000
-    }
+//    static func millisecondsToSeconds(ms: Double) -> Double {
+//        return ms/1000
+//    }
     
     static func metersToKilometers(m: Double) -> Double{
         return m/1000

@@ -24,7 +24,9 @@ class ActivitySelectionPopup: UIViewController, UIPickerViewDelegate, UIPickerVi
         self.activityPicker.delegate = self
         self.activityPicker.dataSource = self
         
-        activityTypes = ["Run", "Bike", "Ski", "Other"]
+        //activityTypes = ["Run", "Bike", "Ski", "Other"]
+        //activtyTypes = StringStructs.ActivityTypes
+        activityTypes = StringStructs.ActivityTypes.allActivities
         selectedActivity = activityTypes[0]
         
         selectButton.setTitle("Select", for: .normal)

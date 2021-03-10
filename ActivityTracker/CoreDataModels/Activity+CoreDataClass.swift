@@ -64,6 +64,7 @@ public class Activity: NSManagedObject {
         //really hope this is ok
         //calculates time between last recorded possitions
         self.time = path[path.count-1].timestamp.timeIntervalSince(path[0].timestamp)
+        print("THE TIME IS :", self.time)
     }
     
     private func calcElevationGain(){

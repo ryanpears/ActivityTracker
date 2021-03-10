@@ -25,6 +25,7 @@
 		03F100C125F54035001E27FE /* Activity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F100C025F54035001E27FE /* Activity+CoreDataProperties.swift */; };
 		03F100C825F567AE001E27FE /* Run+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F100C625F567AE001E27FE /* Run+CoreDataClass.swift */; };
 		03F100C925F567AE001E27FE /* Run+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F100C725F567AE001E27FE /* Run+CoreDataProperties.swift */; };
+		03F100CF25F69A4F001E27FE /* StringStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F100CE25F69A4F001E27FE /* StringStructs.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 		03F100C025F54035001E27FE /* Activity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Activity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		03F100C625F567AE001E27FE /* Run+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Run+CoreDataClass.swift"; sourceTree = "<group>"; };
 		03F100C725F567AE001E27FE /* Run+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Run+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		03F100CE25F69A4F001E27FE /* StringStructs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringStructs.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,6 +165,7 @@
 			isa = PBXGroup;
 			children = (
 				03B79DC0259274D8000D85BB /* MeasurementUtils.swift */,
+				03F100CE25F69A4F001E27FE /* StringStructs.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -288,6 +291,7 @@
 				0358459324D1DB430075A2E1 /* ActivityTracker.xcdatamodeld in Sources */,
 				03F100C125F54035001E27FE /* Activity+CoreDataProperties.swift in Sources */,
 				0358458924D1DB430075A2E1 /* AppDelegate.swift in Sources */,
+				03F100CF25F69A4F001E27FE /* StringStructs.swift in Sources */,
 				0358458B24D1DB430075A2E1 /* SceneDelegate.swift in Sources */,
 				03870A9224E1A26D007A4A94 /* ActivityTableViewCell.swift in Sources */,
 				03F100C825F567AE001E27FE /* Run+CoreDataClass.swift in Sources */,

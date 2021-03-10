@@ -182,7 +182,7 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="hgt-mp-CcI">
                                         <rect key="frame" x="135.5" y="0.0" width="83" height="61"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Elevation Gain" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zyc-Gk-USN">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Average Pace" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zyc-Gk-USN">
                                                 <rect key="frame" x="0.0" y="0.0" width="83" height="20.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
@@ -262,10 +262,10 @@
                     </navigationItem>
                     <connections>
                         <outlet property="activitySelectionButton" destination="JhN-ia-Dd2" id="Rxe-1c-acP"/>
+                        <outlet property="averagePaceDisp" destination="AKf-Pa-1OG" id="fSc-hQ-yku"/>
+                        <outlet property="averagePaceLabel" destination="zyc-Gk-USN" id="Ayc-Xk-H6u"/>
                         <outlet property="distanceDisp" destination="nNb-4Z-StO" id="INc-y6-xp6"/>
                         <outlet property="distanceLabel" destination="KmP-xx-pIA" id="KZh-Oo-R5h"/>
-                        <outlet property="elevationDisp" destination="AKf-Pa-1OG" id="KjH-RJ-Xh7"/>
-                        <outlet property="elevationLabel" destination="zyc-Gk-USN" id="Ayc-Xk-H6u"/>
                         <outlet property="mapView" destination="yjG-mI-rcg" id="YHY-Mq-rHf"/>
                         <outlet property="saveButton" destination="U2n-TG-mkT" id="6iY-AK-xB6"/>
                         <outlet property="startStopButton" destination="15q-aP-axg" id="zTx-z2-93T"/>

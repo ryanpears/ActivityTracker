@@ -17,13 +17,14 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var startStopButton: UIButton!
     @IBOutlet weak var activitySelectionButton: UIButton!
-    var selectedActivity: String = ""
+    var selectedActivity: String = StringStructs.ActivityTypes.other
+    
     
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var timeDisp: UILabel!
     
-    @IBOutlet weak var elevationLabel: UILabel!
-    @IBOutlet weak var elevationDisp: UILabel!
+    @IBOutlet weak var averagePaceLabel: UILabel!
+    @IBOutlet weak var averagePaceDisp: UILabel!
     
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var distanceDisp: UILabel!
@@ -89,12 +90,12 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
         //disable save button
         saveButton.isEnabled = false
         
-        activitySelectionButton.setTitle("Other", for: .normal)
-        let selectedActivity = activitySelectionButton?.currentTitle ?? "Other"
+        activitySelectionButton.setTitle(StringStructs.ActivityTypes.other, for: .normal)
+        
         
         //Zero out the stats
         timeDisp.text = MeasurementUtils.timeString(time: 0) + " \nmin"
-        elevationDisp.text = String(format: "%.2f", 0) + " \nkm"
+        averagePaceDisp.text = String(format: "%.2f", 0) + " \nkm"
         distanceDisp.text = String(format: "%.2f", 0) + " \nkm"
     }
     
@@ -140,7 +141,7 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
             distanceDisp.text = String(format: "%.2f", distance)
             
             let pace: Double = totalActivityTime/distance
-            elevationDisp.text = MeasurementUtils.timeString(time: pace)
+            averagePaceDisp.text = MeasurementUtils.timeString(time: pace)
             
         }else{
             lastSignificatePossition = path[0]
@@ -150,6 +151,7 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
         
         //create MKPolyline from path
         //MayAlso make this a different func
+        //NOTE I THINK THIS CAUSES THE SLOW DOWN IN THE APP MAYBE MAKE ASYNC
         var possitionsInTwoD = [CLLocationCoordinate2D]()
         for case let point in path{//loops over non-nil(kinda cool)
             let coordinate = CLLocationCoordinate2D(latitude: point.coordinate.latitude, longitude: point.coordinate.longitude)
@@ -189,20 +191,21 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
     }
     
     @IBAction func SelectActivityPressed(_ sender: UIButton) {
-        self.performSegue(withIdentifier: "SelectActivitySegue", sender: self)
+        //self.performSegue(withIdentifier: "SelectActivitySegue", sender: self)
+        self.performSegue(withIdentifier: StringStructs.Segues.SelectActivitySegue, sender: self)
     }
     
     //MARK: navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         //for popover
-        if segue.identifier == "SelectActivitySegue"{
+        if segue.identifier == StringStructs.Segues.SelectActivitySegue{
             let dest = segue.destination
             if let selectionPopup = dest.popoverPresentationController{
                 selectionPopup.delegate = self
             }
             return
-        }else{//TODO: make this per segue
+        }else if segue.identifier == StringStructs.Segues.addActivity{//TODO: make this per segue
             guard let button = sender as? UIBarButtonItem, button === saveButton else{
                 os_log("save button wasn't pressed", type: .debug)
                 return

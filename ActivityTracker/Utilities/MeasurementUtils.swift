@@ -16,13 +16,20 @@ class MeasurementUtils{
     //MARK: formating
     static func timeString(time: Double) -> String {
         //checking for valid input
+        //TOFUCKINGDO MAKE THIS WORK
         if time.isNaN || time.isInfinite {
             return String(format: "%.2d:%.2d", 0, 0)
         }
         
-        let seconds = Int(time.truncatingRemainder(dividingBy: 60))
-        let minutes = Int(time.truncatingRemainder(dividingBy: 60 * 60) / 60)
-        return String(format: "%.2d:%.2d", minutes, seconds)
+        let seconds:Int = Int(time) % 60
+        let minutes:Int = Int(time/60) % 60
+        let hours = Int(time/3600)
+        if hours == 0{
+            return String(format: "%.2dm %.2ds ", minutes, seconds)
+        }else{
+            return String(format: "%dh %.2dm ", hours, minutes)
+        }
+        
     }
     
     //MARK: metric

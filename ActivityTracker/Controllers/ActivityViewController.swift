@@ -94,7 +94,7 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
         
         
         //Zero out the stats
-        timeDisp.text = MeasurementUtils.timeString(time: 0) + " \nmin"
+        timeDisp.text = MeasurementUtils.timeString(time: 0)
         averagePaceDisp.text = String(format: "%.2f", 0) + " \nkm"
         distanceDisp.text = String(format: "%.2f", 0) + " \nkm"
     }
@@ -149,18 +149,7 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
         }else{
             lastSignificatePossition = path[0]
         }
-       
-        //let currentLocation = path[path.count-1].pos
-        
-        //create MKPolyline from path
-        //MayAlso make this a different func
-        //NOTE I THINK THIS CAUSES THE SLOW DOWN IN THE APP MAYBE MAKE ASYNC
-        //var possitionsInTwoD: [CLLocationCoordinate2D] = [lastSignificatePossition?.coordinate, ]
-        
-//        for case let point in path{//loops over non-nil(kinda cool)
-//            let coordinate = CLLocationCoordinate2D(latitude: point.coordinate.latitude, longitude: point.coordinate.longitude)
-//            possitionsInTwoD.append(coordinate)
-//        }
+        //draw next line segment
         if !possitionsIn2D.isEmpty{
             let line = MKPolyline(coordinates: possitionsIn2D, count: possitionsIn2D.count)
             //posstion map
@@ -229,16 +218,6 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
     
     
     //MARK: private functions
-    /*private func timeString(time: Double) -> String {
-        //checking for valid input
-        if time.isNaN || time.isInfinite {
-            return String(format: "%.2d:%.2d", 0, 0)
-        }
-        
-        let seconds = Int(time.truncatingRemainder(dividingBy: 60))
-        let minutes = Int(time.truncatingRemainder(dividingBy: 60 * 60) / 60)
-        return String(format: "%.2d:%.2d", minutes, seconds)
-    }*/
     
     //Note: this is inacurrate I will need to account for error a bit better.
     //possibly move this to MeasurementUtils

@@ -198,7 +198,9 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
             //unwind
             self.performSegue(withIdentifier: StringStructs.Segues.UnwindToProfile, sender: self)
         })
+        let cancel = UIAlertAction(title: "cancel", style: .cancel, handler: nil)
         saveAlert.addAction(ok)
+        saveAlert.addAction(cancel)
         self.present(saveAlert, animated: true, completion: nil)
     }
     
@@ -214,23 +216,6 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
             }
             return
         }
-        //NOTE: DELETE??
-        //else if segue.identifier == StringStructs.Segues.addActivity{
-            guard let button = sender as? UIBarButtonItem, button === saveButton else{
-                os_log("save button wasn't pressed", type: .debug)
-                return
-            }
-           
-            os_log("activity created unwinding now", type: .debug)
-        
-        let saveAlert = UIAlertController(title: "Save this activity?", message: "You won't be able to continue trackin this activity if you leave.", preferredStyle: .alert)
-        let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
-            print("ok pressed")
-        })
-        saveAlert.addAction(ok)
-        //self.presentViewController(alertController: saveAlert)
-        //self.present(saveAlert, animated: true, completion: nil)
-        //}
         
     }
     

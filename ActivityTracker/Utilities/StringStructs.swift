@@ -23,6 +23,7 @@ class StringStructs{
     //don't think this needs to be loopable
     public struct Segues {
         static let addActivity = "addActivity"
+        static let UnwindToProfile = "UnwindToProfile"
         static let SelectActivitySegue = "SelectActivitySegue"
     }
     

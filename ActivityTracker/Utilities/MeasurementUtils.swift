@@ -14,9 +14,11 @@ import os.log
 class MeasurementUtils{
     
     //MARK: formating
+    /*
+     takes in a double (in seconds) and returns a string formated in a way for UI
+     */
     static func timeString(time: Double) -> String {
         //checking for valid input
-        //TOFUCKINGDO MAKE THIS WORK
         if time.isNaN || time.isInfinite {
             return String(format: "%.2d:%.2d", 0, 0)
         }
@@ -33,10 +35,7 @@ class MeasurementUtils{
     }
     
     //MARK: metric
-//    static func millisecondsToSeconds(ms: Double) -> Double {
-//        return ms/1000
-//    }
-    
+
     static func metersToKilometers(m: Double) -> Double{
         return m/1000
     }

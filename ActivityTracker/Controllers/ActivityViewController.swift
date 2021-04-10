@@ -190,6 +190,19 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
         self.performSegue(withIdentifier: StringStructs.Segues.SelectActivitySegue, sender: self)
     }
     
+    @IBAction func SaveButtonPressed(_ sender: UIBarButtonItem) {
+        //check if meant to save
+        let saveAlert = UIAlertController(title: "Save this activity?", message: "You won't be able to continue tracking this activity if you leave.", preferredStyle: .alert)
+        let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
+            print("ok pressed")
+            //unwind
+            self.performSegue(withIdentifier: StringStructs.Segues.UnwindToProfile, sender: self)
+        })
+        saveAlert.addAction(ok)
+        self.present(saveAlert, animated: true, completion: nil)
+    }
+    
+    
     //MARK: navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
@@ -200,26 +213,32 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
                 selectionPopup.delegate = self
             }
             return
-        }else if segue.identifier == StringStructs.Segues.addActivity{//TODO: make this per segue
+        }
+        //NOTE: DELETE??
+        //else if segue.identifier == StringStructs.Segues.addActivity{
             guard let button = sender as? UIBarButtonItem, button === saveButton else{
                 os_log("save button wasn't pressed", type: .debug)
                 return
             }
-            //new activity created to be passed to table view
+           
             os_log("activity created unwinding now", type: .debug)
-        }
+        
+        let saveAlert = UIAlertController(title: "Save this activity?", message: "You won't be able to continue trackin this activity if you leave.", preferredStyle: .alert)
+        let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
+            print("ok pressed")
+        })
+        saveAlert.addAction(ok)
+        //self.presentViewController(alertController: saveAlert)
+        //self.present(saveAlert, animated: true, completion: nil)
+        //}
         
     }
-    
-    @IBAction func unwindToActivity(_ sender: UIStoryboardSegue){
-        //nothing in here really yet
-    }
-    
     
     
     //MARK: private functions
     
-    //Note: this is inacurrate I will need to account for error a bit better.
+    
+    
     //possibly move this to MeasurementUtils
     private func calcDistance(point1: CLLocation, point2: CLLocation) -> Double{
         var dist = point1.distance(from: point2)

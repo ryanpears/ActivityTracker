@@ -54,13 +54,13 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="uBY-3o-CRt">
                                                     <rect key="frame" x="130.5" y="0.0" width="113" height="56"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Elevation Gain" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cnu-xE-0ag">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Elevation Gain" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cnu-xE-0ag">
                                                             <rect key="frame" x="0.0" y="0.0" width="108" height="20.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Ave. Pace N" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sHC-eO-nT7">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ave. Pace N" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sHC-eO-nT7">
                                                             <rect key="frame" x="0.0" y="35.5" width="90.5" height="20.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
@@ -256,7 +256,7 @@
                     <navigationItem key="navigationItem" title="New Activity" id="cix-mX-3br">
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="U2n-TG-mkT">
                             <connections>
-                                <segue destination="Tll-V9-Bef" kind="unwind" unwindAction="unwindToProfileWithSender:" id="uw9-WE-xhA"/>
+                                <action selector="SaveButtonPressed:" destination="BYZ-38-t0r" id="1OF-Vq-c11"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -274,6 +274,7 @@
                         <segue destination="yYM-oH-6mh" kind="popoverPresentation" identifier="SelectActivitySegue" popoverAnchorView="JhN-ia-Dd2" id="15c-nM-UMx">
                             <popoverArrowDirection key="popoverArrowDirection" down="YES"/>
                         </segue>
+                        <segue destination="Tll-V9-Bef" kind="unwind" identifier="UnwindToProfile" unwindAction="unwindToProfileWithSender:" id="nOs-pp-9Fl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

@@ -256,7 +256,7 @@
                     <navigationItem key="navigationItem" title="New Activity" id="cix-mX-3br">
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="U2n-TG-mkT">
                             <connections>
-                                <action selector="SaveButtonPressed:" destination="BYZ-38-t0r" id="1OF-Vq-c11"/>
+                                <action selector="SaveButtonPressed:" destination="BYZ-38-t0r" id="fSk-QW-JPX"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

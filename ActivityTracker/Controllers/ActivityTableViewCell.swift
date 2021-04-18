@@ -105,7 +105,7 @@ class ActivityTableViewCell: UITableViewCell, MKMapViewDelegate {
     
     //TODO add a meteric and imperial version 
     private func setTime(time: Double){
-        self.timeDisp.text = MeasurementUtils.timeString(time: time) + " min"
+        self.timeDisp.text = MeasurementUtils.timeString(time: time)
     }
     
     private func setElevationGain(elevationGain: Double){

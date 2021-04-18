@@ -41,7 +41,7 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
     private(set) var path: [CLLocation] = []
     //used for calculating distance in a kinda lazy way.
     private var lastSignificatePossition: CLLocation?
-    //probably should make private
+    
     //private(set) var currentActivity: Activity?
     
     //TEST REMOVE LATER
@@ -89,14 +89,21 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
         })
         //disable save button
         saveButton.isEnabled = false
+        //disable back button to avoid ending activity early
+        self.navigationItem.hidesBackButton = true
         
         activitySelectionButton.setTitle(StringStructs.ActivityTypes.other, for: .normal)
         
         
         //Zero out the stats
-        timeDisp.text = MeasurementUtils.timeString(time: 0) + " \nmin"
+        timeDisp.text = MeasurementUtils.timeString(time: 0)
         averagePaceDisp.text = String(format: "%.2f", 0) + " \nkm"
         distanceDisp.text = String(format: "%.2f", 0) + " \nkm"
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        // will not work since view is already disappearing. must override the left barbutton
+        super.viewWillDisappear(animated)
     }
     
    //MARK: LocationMangerDelegate
@@ -149,18 +156,7 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
         }else{
             lastSignificatePossition = path[0]
         }
-       
-        //let currentLocation = path[path.count-1].pos
-        
-        //create MKPolyline from path
-        //MayAlso make this a different func
-        //NOTE I THINK THIS CAUSES THE SLOW DOWN IN THE APP MAYBE MAKE ASYNC
-        //var possitionsInTwoD: [CLLocationCoordinate2D] = [lastSignificatePossition?.coordinate, ]
-        
-//        for case let point in path{//loops over non-nil(kinda cool)
-//            let coordinate = CLLocationCoordinate2D(latitude: point.coordinate.latitude, longitude: point.coordinate.longitude)
-//            possitionsInTwoD.append(coordinate)
-//        }
+        //draw next line segment
         if !possitionsIn2D.isEmpty{
             let line = MKPolyline(coordinates: possitionsIn2D, count: possitionsIn2D.count)
             //posstion map
@@ -201,6 +197,20 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
         self.performSegue(withIdentifier: StringStructs.Segues.SelectActivitySegue, sender: self)
     }
     
+    @IBAction func SaveButtonPressed(_ sender: UIBarButtonItem) {
+        
+        let saveAlert = UIAlertController(title: "Are you done with this activity?", message: "You won't be able to continue this activity if you save.", preferredStyle: .alert)
+        let ok = UIAlertAction(title: "Save", style: .default, handler: { (action) -> Void in
+            //unwind here
+            self.performSegue(withIdentifier: StringStructs.Segues.UnwindToProfile, sender: self)
+        })
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        saveAlert.addAction(ok)
+        saveAlert.addAction(cancel)
+        self.present(saveAlert, animated: true, completion: nil)
+    }
+    
     //MARK: navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
@@ -211,34 +221,38 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
                 selectionPopup.delegate = self
             }
             return
-        }else if segue.identifier == StringStructs.Segues.addActivity{//TODO: make this per segue
+        }
+        //else if segue.identifier == StringStructs.Segues.addActivity{
             guard let button = sender as? UIBarButtonItem, button === saveButton else{
                 os_log("save button wasn't pressed", type: .debug)
                 return
             }
-            //new activity created to be passed to table view
+           
             os_log("activity created unwinding now", type: .debug)
-        }
         
     }
     
     @IBAction func unwindToActivity(_ sender: UIStoryboardSegue){
-        //nothing in here really yet
+        //DO NOT DELETE THIS ITS SO OTHER VIEWS CAN UNWIND HERE
     }
     
     
     
     //MARK: private functions
-    /*private func timeString(time: Double) -> String {
-        //checking for valid input
-        if time.isNaN || time.isInfinite {
-            return String(format: "%.2d:%.2d", 0, 0)
+    /**
+     should help fix alerts disappearing
+     */
+    private func presentViewController(alertController: UIAlertController, completion: (() -> Void)? = nil) {
+            if var topController = UIApplication.shared.keyWindow?.rootViewController {
+                while let presentedViewController = topController.presentedViewController {
+                    topController = presentedViewController
+                }
+
+                DispatchQueue.main.async {
+                    topController.present(alertController, animated: true, completion: completion)
+                }
+            }
         }
-        
-        let seconds = Int(time.truncatingRemainder(dividingBy: 60))
-        let minutes = Int(time.truncatingRemainder(dividingBy: 60 * 60) / 60)
-        return String(format: "%.2d:%.2d", minutes, seconds)
-    }*/
     
     //Note: this is inacurrate I will need to account for error a bit better.
     //possibly move this to MeasurementUtils

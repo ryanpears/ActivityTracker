@@ -14,22 +14,28 @@ import os.log
 class MeasurementUtils{
     
     //MARK: formating
+    /*
+     takes in a double (in seconds) and returns a string formated in a way for UI
+     */
     static func timeString(time: Double) -> String {
         //checking for valid input
         if time.isNaN || time.isInfinite {
             return String(format: "%.2d:%.2d", 0, 0)
         }
         
-        let seconds = Int(time.truncatingRemainder(dividingBy: 60))
-        let minutes = Int(time.truncatingRemainder(dividingBy: 60 * 60) / 60)
-        return String(format: "%.2d:%.2d", minutes, seconds)
+        let seconds:Int = Int(time) % 60
+        let minutes:Int = Int(time/60) % 60
+        let hours = Int(time/3600)
+        if hours == 0{
+            return String(format: "%.2dm %.2ds ", minutes, seconds)
+        }else{
+            return String(format: "%dh %.2dm ", hours, minutes)
+        }
+        
     }
     
     //MARK: metric
-//    static func millisecondsToSeconds(ms: Double) -> Double {
-//        return ms/1000
-//    }
-    
+
     static func metersToKilometers(m: Double) -> Double{
         return m/1000
     }

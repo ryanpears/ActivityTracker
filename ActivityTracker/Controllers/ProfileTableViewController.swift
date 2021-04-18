@@ -150,7 +150,7 @@ class ProfileTableViewController: UITableViewController {
     private func save(){
         do{
             //name change to stop weird coredata stuff
-            NSKeyedArchiver.setClassName("ActivityTracker.activity", for: Activity.self)
+            //NSKeyedArchiver.setClassName("ActivityTracker.activity", for: Activity.self)
             try self.context.save()
         }catch{
             print("error saving data: \(error)")
@@ -160,11 +160,13 @@ class ProfileTableViewController: UITableViewController {
     private func fetch(){
         do{
             //name change to stop weird coredata stuff
-            NSKeyedUnarchiver.setClass(Activity.self, forClassName: "ActivityTracker.activity")
+            //NSKeyedUnarchiver.setClass(Activity.self, forClassName: "ActivityTracker.activity")
             let data:[Activity] = try context.fetch(Activity.fetchRequest())
             for activity in data{
                 if activity != nil{
                     self.activities.insert(activity, at:0)
+                    //debugging path/timing issue
+                    //GOOD NEWS DUMBASS YOU JUST ARENT PRINTING THE FUCKING HOURS.
                 }
             }
             //reload data

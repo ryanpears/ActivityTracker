@@ -41,7 +41,7 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
     private(set) var path: [CLLocation] = []
     //used for calculating distance in a kinda lazy way.
     private var lastSignificatePossition: CLLocation?
-    //probably should make private
+    
     //private(set) var currentActivity: Activity?
     
     //TEST REMOVE LATER
@@ -89,6 +89,8 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
         })
         //disable save button
         saveButton.isEnabled = false
+        //disable back button to avoid ending activity early
+        self.navigationItem.hidesBackButton = true
         
         activitySelectionButton.setTitle(StringStructs.ActivityTypes.other, for: .normal)
         
@@ -97,6 +99,11 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
         timeDisp.text = MeasurementUtils.timeString(time: 0)
         averagePaceDisp.text = String(format: "%.2f", 0) + " \nkm"
         distanceDisp.text = String(format: "%.2f", 0) + " \nkm"
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        // will not work since view is already disappearing. must override the left barbutton
+        super.viewWillDisappear(animated)
     }
     
    //MARK: LocationMangerDelegate
@@ -193,11 +200,11 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
     @IBAction func SaveButtonPressed(_ sender: UIBarButtonItem) {
         
         let saveAlert = UIAlertController(title: "Are you done with this activity?", message: "You won't be able to continue this activity if you save.", preferredStyle: .alert)
-        let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
+        let ok = UIAlertAction(title: "Save", style: .default, handler: { (action) -> Void in
             //unwind here
             self.performSegue(withIdentifier: StringStructs.Segues.UnwindToProfile, sender: self)
         })
-        let cancel = UIAlertAction(title: "cancel", style: .cancel, handler: nil)
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         saveAlert.addAction(ok)
         saveAlert.addAction(cancel)
@@ -222,14 +229,6 @@ class ActivityViewController: UIViewController, CLLocationManagerDelegate, MKMap
             }
            
             os_log("activity created unwinding now", type: .debug)
-        
-//        let saveAlert = UIAlertController(title: "Save this activity?", message: "You won't be able to continue trackin this activity if you leave.", preferredStyle: .alert)
-//        let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
-//            print("ok pressed")
-//        })
-//        saveAlert.addAction(ok)
-//        self.present(saveAlert, animated: true, completion: nil)
-        //}
         
     }
     
